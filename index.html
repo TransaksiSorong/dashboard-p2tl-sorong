@@ -423,6 +423,169 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
   .fgroup .fl{min-width:100%}
   .chart{height:260px}
 }
+/* ================= v3: komponen baru ================= */
+.page-tab[data-page="ringkasan"]{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='9' rx='1'/%3E%3Crect x='14' y='3' width='7' height='5' rx='1'/%3E%3Crect x='14' y='12' width='7' height='9' rx='1'/%3E%3Crect x='3' y='16' width='7' height='5' rx='1'/%3E%3C/svg%3E")}
+.page-tab[data-page="harian"]{--ico:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01'/%3E%3C/svg%3E")}
+
+/* hero lebih hidup: garis cahaya bergerak pelan */
+.hero{background:radial-gradient(900px 380px at 12% -10%,rgba(60,224,138,.18),transparent 60%),linear-gradient(120deg,#062A52 0%,#0B4C8C 52%,#1273C4 100%)}
+@media (prefers-reduced-motion: no-preference){
+  .hero::before{animation:drift 26s linear infinite}
+  @keyframes drift{from{background-position:0 0,0 0}to{background-position:0 0,220px 0}}
+  .page:not([hidden]) > *{animation:rise .38s cubic-bezier(.2,.7,.2,1) both}
+  .page:not([hidden]) > *:nth-child(2){animation-delay:.04s}
+  .page:not([hidden]) > *:nth-child(3){animation-delay:.08s}
+  .page:not([hidden]) > *:nth-child(4){animation-delay:.12s}
+  .page:not([hidden]) > *:nth-child(n+5){animation-delay:.16s}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+.card{transition:box-shadow .2s,border-color .2s}
+.card:hover{box-shadow:0 8px 24px rgba(10,37,64,.08)}
+.card h3{display:flex;align-items:center;gap:8px}
+.card h3::before{content:'';width:4px;height:16px;border-radius:4px;background:linear-gradient(var(--yellow),#F08A00);flex:none}
+.mb{margin-bottom:16px}
+
+/* sparkline di kartu unit */
+.tab .spark{width:100%;height:24px;margin-top:2px;overflow:visible}
+.tab .spark polyline{fill:none;stroke:var(--real);stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.tab .spark circle{fill:var(--real)}
+.tab .spark .s100{stroke:var(--tgtline);stroke-dasharray:3 3;stroke-width:1;vector-effect:non-scaling-stroke;opacity:.8}
+
+/* tombol unduh + menu */
+.dlwrap{position:relative}
+.dlmenu{position:absolute;right:0;top:calc(100% + 8px);z-index:40;min-width:290px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);padding:8px}
+.dlmenu[hidden]{display:none}
+.dlmenu .dh{font-size:12px;color:var(--ink3);padding:6px 10px 8px;border-bottom:1px solid var(--line2);margin-bottom:6px}
+.dlmenu .dh b{color:var(--ink)}
+.dlmenu button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:10px;cursor:pointer;color:var(--ink);font:inherit;min-height:48px}
+.dlmenu button:hover,.dlmenu button:focus-visible{background:var(--soft);outline:none}
+.dlmenu .fi{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;flex:none;color:#fff}
+.dlmenu .fi.ppt{background:#D24726}.dlmenu .fi.pdf{background:#B42318}
+.dlmenu .ft b{display:block;font-size:14px}.dlmenu .ft span{font-size:12px;color:var(--ink3)}
+.v3toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--tip);color:#fff;padding:11px 18px;border-radius:12px;font-weight:600;font-size:14px;box-shadow:var(--shadow-lg);transition:opacity .2s,transform .2s;z-index:90;max-width:calc(100vw - 32px)}
+.v3toast.show{opacity:1;transform:translate(-50%,0)}
+.v3toast.ok{background:#067647}.v3toast.err{background:#B42318}
+
+/* segmented control */
+.seg{display:inline-flex;gap:2px;padding:3px;border-radius:10px;background:var(--soft);border:1px solid var(--line);margin:2px 0 12px}
+.seg button{border:0;background:none;color:var(--ink2);font:inherit;font-weight:700;font-size:13px;padding:7px 12px;border-radius:8px;cursor:pointer;min-height:34px}
+.seg button[aria-selected="true"]{background:var(--card);color:var(--ink-strong);box-shadow:var(--shadow)}
+
+/* ringkasan: kartu program */
+.prog3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:16px}
+.prog{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.prog-top{display:flex;align-items:center;gap:10px}
+.prog-top h3{margin:0;font-size:15px;font-weight:800}
+.pic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent)}
+.prog-body{display:flex;gap:16px;align-items:center}
+.ringwrap{position:relative;width:124px;height:124px;flex:none}
+.ring{width:124px;height:124px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring .rt{stroke:var(--line2)}
+.ring .r2{stroke:var(--yellow);stroke-width:7}
+@media (prefers-reduced-motion: no-preference){ .ring .r1,.ring .r2{animation:ringin .9s cubic-bezier(.2,.7,.2,1) both} @keyframes ringin{from{stroke-dasharray:0 400}} }
+.ringtxt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ringtxt b{font-family:var(--font-head);font-size:18px;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
+.ringtxt > span{font-size:11px;color:var(--ink3);font-weight:600}
+.pdl{margin:0;display:grid;gap:7px;min-width:0;flex:1}
+.pdl div{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;border-bottom:1px dashed var(--line2);padding-bottom:5px}
+.pdl dt{color:var(--ink3);display:flex;align-items:center;gap:5px}
+.pdl dd{margin:0;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pdl small{color:var(--ink3);font-weight:600}
+.dot2{width:8px;height:8px;border-radius:50%;background:var(--yellow);display:inline-block}
+.prog-go{align-self:flex-start;border:0;background:none;color:var(--brand);font:inherit;font-weight:700;font-size:13px;cursor:pointer;padding:6px 0;min-height:32px}
+.prog-go:hover{text-decoration:underline}
+
+/* sorotan */
+.ins4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.ins{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.iic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--brand-soft);color:var(--brand)}
+.ins .it{font-size:12px;color:var(--ink3);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.ins .iv{font-family:var(--font-head);font-size:17px;font-weight:700;margin:2px 0}
+.ins .is{font-size:12.5px;color:var(--ink2)}
+
+/* proyeksi */
+.projbox{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:10px}
+.pj{background:var(--soft);border:1px solid var(--line2);border-radius:12px;padding:10px 12px;min-width:0}
+.pj span{display:block;font-size:12px;color:var(--ink3);font-weight:600}
+.pj b{display:block;font-family:var(--font-head);font-size:16px;margin:3px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pj em{font-style:normal;font-size:12px;color:var(--ink2)}
+
+/* peta capaian (heatmap) */
+.heat{display:grid;gap:4px;overflow-x:auto;padding-bottom:4px}
+.hm-row{display:grid;grid-template-columns:112px repeat(12,minmax(30px,1fr)) minmax(40px,1.1fr);gap:4px;align-items:center;min-width:560px}
+.hm-h span{font-size:11.5px;color:var(--ink3);text-align:center;font-weight:700}
+.hm-h span.cur{color:var(--brand)}
+.hm-row button{border:0;background:none;text-align:left;font:inherit;font-weight:700;font-size:13px;color:var(--ink);padding:6px 4px;border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hm-row button:hover{background:var(--soft)}
+.hm-row.sel button{color:var(--brand)}
+.hc{height:34px;border-radius:7px;display:grid;place-items:center;font-size:11.5px;font-weight:800;font-variant-numeric:tabular-nums}
+.hc.k{outline:2px solid var(--line);outline-offset:-2px}
+.hc.g,.cd.g,.st.g{background:#1E9E5A;color:#fff}
+.hc.y,.cd.y,.st.y{background:#F5C02B;color:#3D2E00}
+.hc.r,.cd.r,.st.r{background:#D64545;color:#fff}
+.hc.z,.cd.z,.st.z{background:#2B3445;color:#fff}
+.hc.na{background:var(--line2)}
+.hc.cur{box-shadow:inset 0 0 0 2px rgba(255,255,255,.85);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.18) 0 4px,transparent 4px 8px)}
+.lstat{margin-top:10px}
+.lstat i.st{width:12px;height:12px;border-radius:3px}
+
+/* peringkat */
+.rank{display:grid;gap:8px}
+.rk{display:flex;gap:12px;align-items:center;border:1px solid var(--line2);background:var(--soft);border-radius:12px;padding:10px 12px;text-align:left;font:inherit;color:var(--ink);cursor:pointer;min-height:56px}
+.rk:hover{border-color:var(--brand)}
+.rk.sel{border-color:var(--yellow);box-shadow:0 0 0 2px var(--yellow) inset}
+.rn{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-head);font-weight:700;background:var(--card);border:1px solid var(--line);flex:none}
+.rk:first-child .rn{background:var(--yellow);border-color:var(--yellow);color:#231800}
+.rb{flex:1;min-width:0;display:grid;gap:5px}
+.rt1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rbar{height:6px;border-radius:9px;background:var(--line2);overflow:hidden}
+.rbar i{display:block;height:100%;background:var(--real);border-radius:9px}
+.rt2{font-size:12px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* finansial */
+.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fgrid div{background:var(--soft);border:1px solid var(--line2);border-radius:12px;padding:12px}
+.fgrid span{display:block;font-size:12px;color:var(--ink3);font-weight:600}
+.fgrid b{display:block;font-family:var(--font-head);font-size:20px;margin:3px 0}
+.fgrid em{font-style:normal;font-size:12px;color:var(--ink2)}
+.paybar{margin-top:14px}
+.pbh{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink2);font-weight:600;margin-bottom:6px}
+.pb{display:flex;height:14px;border-radius:9px;overflow:hidden;gap:2px;background:var(--line2)}
+.pb i{display:block;height:100%}
+.pb i.t{background:var(--s3)} .pb i.a{background:var(--s4)}
+.paybar .legend{margin-top:8px}
+.chip.warn{background:var(--warnbg);color:var(--warn)}
+
+/* kalender */
+.calwrap{overflow-x:auto;padding-bottom:6px;--cz:19px;--cg:4px;--cs:calc(var(--cz) + var(--cg))}
+.cal{position:relative;padding-top:18px;width:max-content}
+.cm{position:absolute;top:0;left:calc(34px + var(--cg));height:16px;right:0}
+.cm span{position:absolute;font-size:11px;color:var(--ink3);font-weight:700}
+.cgrid{display:flex;gap:var(--cg)}
+.cdays{display:grid;grid-template-rows:repeat(7,var(--cz));gap:var(--cg);width:34px;font-size:11px;color:var(--ink3);line-height:var(--cz)}
+.cw{display:grid;grid-template-rows:repeat(7,var(--cz));gap:var(--cg)}
+.cd{width:var(--cz);height:var(--cz);border-radius:4px;display:block}
+@media (max-width:1180px){.calwrap{--cz:14px;--cg:3px}}
+.cd.na{background:transparent}
+.cd.now{outline:2px solid var(--ink);outline-offset:1px}
+.calsum{font-size:13px;color:var(--ink2);margin-top:8px}
+.chart.tall{height:320px}
+.kpi .val small.u{font-size:13px;color:var(--ink3);font-weight:600;font-family:var(--font)}
+.gtag{display:inline-block;padding:2px 8px;border-radius:6px;background:var(--brand-soft);color:var(--ink-strong);font-weight:800;font-size:12px}
+
+@media (max-width:1180px){ .ins4{grid-template-columns:repeat(2,minmax(0,1fr))} .prog3{grid-template-columns:1fr} .prog-body{max-width:560px} }
+@media (max-width:640px){
+  .ins4{grid-template-columns:1fr}
+  .projbox{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr}
+  .prog-body{flex-direction:column;align-items:stretch}
+  .ringwrap{align-self:center}
+  .dlmenu{position:fixed;left:16px;right:16px;top:auto;bottom:16px;min-width:0}
+  .chart.tall{height:260px}
+}
+.hero > .wrap{z-index:5}
+
 </style>
 </head>
 <body>
@@ -438,6 +601,14 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
       <div class="actions">
         <span class="live" id="updated">—</span>
         <button class="hbtn primary" id="importBtn" type="button" hidden aria-label="Import data"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg><span class="bl">Import data</span></button>
+        <div class="dlwrap">
+          <button class="hbtn" id="dlBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="dlMenu"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg><span class="bl">Unduh laporan</span></button>
+          <div class="dlmenu" id="dlMenu" hidden role="menu">
+            <div class="dh">Laporan format PLN untuk unit <b id="dlUnit">—</b></div>
+            <button type="button" role="menuitem" data-dl="pptx"><span class="fi ppt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 18v-6h2.5a2 2 0 0 1 0 4H9"/></svg></span><span class="ft"><b>PowerPoint (.pptx)</b><span>Grafik bisa diedit di PowerPoint</span></span></button>
+            <button type="button" role="menuitem" data-dl="pdf"><span class="fi pdf"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg></span><span class="ft"><b>PDF</b><span>Siap dibagikan atau dicetak</span></span></button>
+          </div>
+        </div>
         <button class="hbtn" id="refresh" type="button" aria-label="Muat ulang"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg><span class="bl">Muat ulang</span></button>
         <a id="srcLink" class="hbtn" target="_blank" rel="noopener" title="Buka spreadsheet Monitoring P2TL UP3 Sorong" aria-label="Buka spreadsheet Monitoring P2TL UP3 Sorong"><svg width="15" height="19" viewBox="0 0 28 36" aria-hidden="true"><path d="M3 0h15l10 10v23a3 3 0 0 1-3 3H3a3 3 0 0 1-3-3V3a3 3 0 0 1 3-3z" fill="#0F9D58"/><path d="M18 0l10 10h-7a3 3 0 0 1-3-3z" fill="#87CEAC"/><rect x="6" y="16" width="16" height="13" rx="1" fill="#F1F1F1"/><path d="M6 20.5h16M6 24.5h16M12 16v13" stroke="#0F9D58" stroke-width="1.4"/></svg><span class="bl">Spreadsheet</span></a>
         <button class="hbtn icon" id="themeBtn" type="button" aria-label="Ganti tema terang/gelap" title="Ganti tema"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></svg></button>
@@ -452,6 +623,8 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
 <main class="wrap">
   <div id="status" class="status" role="status">Memuat data dari spreadsheet…</div>
 
+  <section id="page-ringkasan" class="page" hidden></section>
+  <section id="page-harian" class="page" hidden></section>
   <!-- ================= HALAMAN P2TL ================= -->
   <section id="page-p2tl" class="page" hidden>
     <div class="page-head"><h2>P2TL · kWh kedapatan</h2><p id="p2tlHint"></p></div>
@@ -659,11 +832,15 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
   var MONTHS_FULL = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
   var GOL = ['P1','P2','P3','P4','K1','K2'];
   var GOL_COLOR = { P1:'--s5', P2:'--s1', P3:'--s2', P4:'--s3', K1:'--s6', K2:'--s4' };
-  var PAGES = [['p2tl','P2TL'],['periksa','Pemeriksaan'],['meter','Penggantian Meter']];
+  var PAGES = [['ringkasan','Ringkasan'],['p2tl','P2TL'],['harian','Harian & Temuan'],['periksa','Pemeriksaan'],['meter','Penggantian Meter']];
   var fmt = new Intl.NumberFormat('id-ID');
   var fmt1 = new Intl.NumberFormat('id-ID',{minimumFractionDigits:1,maximumFractionDigits:1});
   var fmt2 = new Intl.NumberFormat('id-ID',{minimumFractionDigits:2,maximumFractionDigits:2});
-  var DATA = null, CURRENT = null, PAGE = 'p2tl', CHARTS = {};
+  var DATA = null, CURRENT = null, PAGE = 'ringkasan', CHARTS = {};
+  window.P2TL = { get DATA(){ return DATA; }, get CURRENT(){ return CURRENT; }, get PAGE(){ return PAGE; }, CHARTS: CHARTS,
+    unitBy: unitBy, up3: up3, ulps: ulps, series: series, draw: draw, baseOpts: baseOpts, bigTick: bigTick,
+    selectUnit: selectUnit, selectPage: selectPage, rerender: function(){ renderPage(); },
+    MONTHS_SHORT: MONTHS_SHORT, MONTHS_FULL: MONTHS_FULL, GOL: GOL };
 
   function $(id){ return document.getElementById(id); }
   function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
@@ -920,7 +1097,7 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
   function updUnitCards(){
     Array.prototype.forEach.call($('tabs').children, function(b){
       var u = unitBy(b.getAttribute('data-code')), a = NaN, v = '', un = '';
-      if (PAGE === 'p2tl'){ a = u.achK; v = n0(u.realK); un = 'kWh'; }
+      if (PAGE === 'p2tl' || PAGE === 'ringkasan' || PAGE === 'harian'){ a = u.achK; v = n0(u.realK); un = 'kWh'; }
       else if (PAGE === 'meter' && DATA.meter && DATA.meter[u.code]){ var sm = series(DATA.meter[u.code], DATA.last); a = sm.ach; v = n0(sm.rK); un = 'meter'; }
       else if (PAGE === 'periksa' && DATA.periksa){ var rr = 0, tt = 0; DATA.periksa.forEach(function(p){ if (!p.hasTarget || !p.byUnit[u.code]) return; var sp = series(p.byUnit[u.code], DATA.last); rr += sp.rK || 0; tt += sp.tK || 0; }); if (tt){ a = rr / tt * 100; v = n0(rr); un = 'periksa'; } }
       b.innerHTML = '<span class="tn">' + esc(u.name) + '</span>' + (isFinite(a)
@@ -934,7 +1111,9 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
     PAGES.forEach(function(p){ $('page-' + p[0]).hidden = p[0] !== PAGE; });
     if (PAGE === 'periksa') renderPeriksa();
     else if (PAGE === 'meter') renderMeter();
+    else if (PAGE === 'ringkasan' || PAGE === 'harian') window.V3.render(PAGE);
     else renderP2TL();
+    try { window.V3.afterRender(); } catch(e){ console.error(e); }
   }
 
   /* =============== grafik =============== */
@@ -1738,6 +1917,7 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
       $('updated').textContent = 'Dimuat ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       $('status').hidden = true;
       renderNav(); renderPage();
+      if (window.V3) window.V3.onRefresh();
     }).catch(function(err){
       $('status').hidden = false; $('status').className = 'status err';
       $('status').innerHTML = '<b>Data belum bisa dimuat.</b> ' + esc(err && err.message ? err.message : err);
@@ -1747,11 +1927,849 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
   $('srcLink').href = 'https://docs.google.com/spreadsheets/d/' + CONFIG.SHEET_ID + '/edit';
   $('refresh').addEventListener('click', refresh);
   initImport();
-  refresh();
+  setTimeout(refresh, 0);
   if (CONFIG.AUTO_REFRESH_MIN > 0) setInterval(refresh, CONFIG.AUTO_REFRESH_MIN * 60000);
 })();
 </script>
 
+<script>
+/* =====================================================================
+   Dashboard v3: halaman Ringkasan, Harian & Temuan, dan unduh laporan
+   (PPT / PDF format PLN). Memakai data dari skrip utama lewat window.P2TL.
+   ===================================================================== */
+(function(){
+  'use strict';
+  var A = function(){ return window.P2TL; };
+  var ULP_CODES = ['42310', '42330', '42340', '42370'];
+  var HARI = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+  var HARI_FULL = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', "Jum'at", 'Sabtu'];
+  var fmt = new Intl.NumberFormat('id-ID');
+  var fmt1 = new Intl.NumberFormat('id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  var fmt2 = new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function $(id){ return document.getElementById(id); }
+  function n0(v){ return fmt.format(Math.round(v || 0)); }
+  function pct(v){ return isFinite(v) ? fmt2.format(v) + '%' : '—'; }
+  function pct1(v){ return isFinite(v) ? fmt1.format(v) + '%' : '—'; }
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function css(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function rpS(v){
+    var a = Math.abs(v || 0);
+    if (a >= 1e9) return 'Rp' + fmt2.format(v / 1e9) + ' M';
+    if (a >= 1e6) return 'Rp' + fmt1.format(v / 1e6) + ' jt';
+    return 'Rp' + n0(v);
+  }
+  function kS(v){ var a = Math.abs(v || 0); return a >= 1e6 ? fmt2.format(v / 1e6) + ' jt' : (a >= 1e4 ? fmt1.format(v / 1e3) + ' rb' : n0(v)); }
+  function iso(d){ return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function parseIso(s){ var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function addDays(d, n){ var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function tglPanjang(d){ return d.getDate() + ' ' + A().MONTHS_FULL[d.getMonth()] + ' ' + d.getFullYear(); }
+  function tglPendek(d){ return d.getDate() + ' ' + A().MONTHS_SHORT[d.getMonth()]; }
+  function daysInMonth(y, m){ return new Date(y, m + 1, 0).getDate(); }
+  function cls(a){ return !isFinite(a) ? 'na' : a >= 100 ? 'g' : a >= 90 ? 'y' : a > 0 ? 'r' : 'z'; }
+  function chip(a){ return isFinite(a) ? '<span class="chip ' + (a >= 100 ? 'up' : 'down') + '">' + pct(a) + (a >= 100 ? ' ▲' : ' ▼') + '</span>' : '<span class="dim">—</span>'; }
+  function reduced(){ return matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  function sum(a){ return a.reduce(function(s, x){ return s + (x || 0); }, 0); }
+  function ICON(d, s){ return '<svg width="' + (s || 18) + '" height="' + (s || 18) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>'; }
+  var IC = {
+    bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/>',
+    meter: '<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
+    check: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+    up: '<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+    down: '<path d="m22 17-8.5-8.5-5 5L2 7"/><path d="M16 17h6v-6"/>',
+    star: '<path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>',
+    flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/>',
+    cal: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    alert: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+    rp: '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>',
+    dl: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+    ppt: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 18v-6h2.5a2 2 0 0 1 0 4H9"/>',
+    pdf: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/>'
+  };
+
+  /* ================= data harian (getDailyData) ================= */
+  var DAILY = null, DAILY_AT = 0, DAILY_ERR = null, DAILY_P = null;
+  function loadDaily(force){
+    if (!force && DAILY && Date.now() - DAILY_AT < 5 * 60000) return Promise.resolve(DAILY);
+    if (DAILY_P) return DAILY_P;
+    var p;
+    if (window.__TEST_DAILY) p = Promise.resolve(window.__TEST_DAILY);
+    else if (window.google && google.script && google.script.run){
+      p = new Promise(function(res, rej){ google.script.run.withSuccessHandler(res).withFailureHandler(rej).getDailyData(); });
+    } else p = Promise.reject(new Error('Server tidak tersedia'));
+    DAILY_P = p.then(function(d){ DAILY = prepDaily(d); DAILY_AT = Date.now(); DAILY_ERR = null; DAILY_P = null; return DAILY; },
+      function(e){ DAILY_ERR = e; DAILY_P = null; throw e; });
+    return DAILY_P;
+  }
+  function prepDaily(d){
+    var kasus = (d.kasus || []).map(function(r){
+      return { u: String(r[0]), d: r[1], gol: r[2], tarif: String(r[3] || ''), kwh: +r[4] || 0, ts: +r[5] || 0, tot: +r[6] || 0, tunai: +r[7] || 0, angs: +r[8] || 0, jenis: r[9] };
+    });
+    var maxD = '';
+    kasus.forEach(function(k){ if (k.d > maxD) maxD = k.d; });
+    Object.keys(d.meter || {}).forEach(function(k){ if (k > maxD) maxD = k; });
+    var yest = iso(addDays(new Date(), -1));
+    var ref = yest < maxD || !maxD ? yest : maxD;      // H-1, atau tanggal data terakhir kalau lebih awal
+    if (maxD && maxD < yest) ref = yest;               // tetap H-1 (hari tanpa data = 0)
+    return { kasus: kasus, meter: d.meter || {}, target: d.target || { kwh: 0, meter: 0 }, asOf: d.asOf, ref: parseIso(ref) };
+  }
+  function unitFilter(code){ var u = A().unitBy(code); return u.isUP3 ? function(){ return true; } : function(c){ return c === code; }; }
+  // deret harian {iso: nilai} untuk unit
+  function dailySeries(code, kind){
+    var f = unitFilter(code), out = {};
+    if (kind === 'meter'){
+      Object.keys(DAILY.meter).forEach(function(d){ var o = DAILY.meter[d], s = 0; Object.keys(o).forEach(function(u){ if (f(u)) s += o[u]; }); if (s) out[d] = s; });
+    } else {
+      DAILY.kasus.forEach(function(k){ if (f(k.u)) out[k.d] = (out[k.d] || 0) + k.kwh; });
+    }
+    return out;
+  }
+  // target harian per unit: target UP3 (sheet REALISASI HARIAN) dibagi menurut porsi target bulanan unit
+  function dailyTarget(code, kind, month){
+    var D = A().DATA, base = kind === 'meter' ? DAILY.target.meter : DAILY.target.kwh;
+    var u = A().unitBy(code);
+    if (u.isUP3 || !base) return base;
+    var U = A().up3();
+    if (kind === 'meter'){
+      var tm = D.meter[code], TU = D.meter[U.code];
+      var a = tm && tm.target ? tm.target[month] : 0, b = TU && TU.target ? TU.target[month] : 0;
+      return b ? base * a / b : base / 4;
+    }
+    var ta = u.months[month].target, tb = U.months[month].target;
+    return tb ? base * ta / tb : base / 4;
+  }
+
+  /* ================= kerangka halaman ================= */
+  function card(title, hint, body, extra){
+    return '<section class="card ' + (extra || '') + '"><h3>' + title + '</h3>' + (hint ? '<p class="hint">' + hint + '</p>' : '') + body + '</section>';
+  }
+  function seg(id, opts, val){
+    return '<div class="seg" role="tablist" id="' + id + '">' + opts.map(function(o){ return '<button type="button" role="tab" data-v="' + o[0] + '" aria-selected="' + (o[0] === val) + '">' + o[1] + '</button>'; }).join('') + '</div>';
+  }
+  function bindSeg(id, cb){
+    var el = $(id); if (!el) return;
+    Array.prototype.forEach.call(el.children, function(b){
+      b.addEventListener('click', function(){
+        Array.prototype.forEach.call(el.children, function(x){ x.setAttribute('aria-selected', String(x === b)); });
+        cb(b.getAttribute('data-v'));
+      });
+    });
+  }
+  function store(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
+  function load(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+
+  // animasi angka naik (count-up) untuk elemen bertanda data-count
+  function countUp(root){
+    if (reduced()) return;
+    Array.prototype.forEach.call(root.querySelectorAll('[data-count]'), function(el){
+      var to = +el.getAttribute('data-count'), dec = +(el.getAttribute('data-dec') || 0), pre = el.getAttribute('data-pre') || '', suf = el.getAttribute('data-suf') || '';
+      var f = new Intl.NumberFormat('id-ID', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+      var t0 = performance.now(), dur = 700;
+      (function step(t){ var k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = pre + f.format(to * e) + suf; if (k < 1) requestAnimationFrame(step); })(t0);
+    });
+  }
+  function num(v, dec, pre, suf){
+    var f = new Intl.NumberFormat('id-ID', { minimumFractionDigits: dec || 0, maximumFractionDigits: dec || 0 });
+    return '<span data-count="' + (isFinite(v) ? v : 0) + '" data-dec="' + (dec || 0) + '" data-pre="' + esc(pre || '') + '" data-suf="' + esc(suf || '') + '">' + esc((pre || '') + f.format(isFinite(v) ? v : 0) + (suf || '')) + '</span>';
+  }
+
+  // cincin progres (SVG)
+  function ring(a, b, color){
+    var R1 = 52, R2 = 40, C1 = 2 * Math.PI * R1, C2 = 2 * Math.PI * R2;
+    var p1 = Math.max(0, Math.min(1, (a || 0) / 100)), p2 = Math.max(0, Math.min(1, (b || 0) / 100));
+    return '<svg class="ring" viewBox="0 0 120 120" aria-hidden="true">' +
+      '<circle cx="60" cy="60" r="' + R1 + '" class="rt"/><circle cx="60" cy="60" r="' + R2 + '" class="rt"/>' +
+      '<circle cx="60" cy="60" r="' + R1 + '" class="r1" style="stroke:' + color + ';stroke-dasharray:' + (C1 * p1).toFixed(1) + ' ' + C1.toFixed(1) + '"/>' +
+      '<circle cx="60" cy="60" r="' + R2 + '" class="r2" style="stroke-dasharray:' + (C2 * p2).toFixed(1) + ' ' + C2.toFixed(1) + '"/></svg>';
+  }
+
+  /* ================= RINGKASAN ================= */
+  function programs(u){
+    var D = A().DATA, last = D.last, s = A().series;
+    var out = [];
+    out.push({ key: 'p2tl', name: 'P2TL · kWh kedapatan', icon: IC.bolt, unit: 'kWh', rK: u.realK, tK: u.targetK, tY: u.targetYear, achK: u.achK, achY: u.achY,
+      lastR: u.months[last] ? u.months[last].real : 0, lastT: u.months[last] ? u.months[last].target : 0 });
+    var m = s(D.meter[u.code], last);
+    out.push({ key: 'meter', name: 'Penggantian meter', icon: IC.meter, unit: 'meter', rK: m.rK, tK: m.tK, tY: m.tY, achK: m.ach, achY: m.achY, lastR: m.lastR, lastT: m.lastT });
+    var rr = 0, tt = 0, ty = 0, lr = 0, lt = 0;
+    D.periksa.forEach(function(p){ if (!p.hasTarget || !p.byUnit[u.code]) return; var q = s(p.byUnit[u.code], last); rr += q.rK; tt += q.tK; ty += q.tY; lr += q.lastR; lt += q.lastT; });
+    out.push({ key: 'periksa', name: 'Pemeriksaan (bertarget)', icon: IC.check, unit: 'periksa', rK: rr, tK: tt, tY: ty, achK: tt ? rr / tt * 100 : NaN, achY: ty ? rr / ty * 100 : NaN, lastR: lr, lastT: lt });
+    return out;
+  }
+  // proyeksi akhir tahun memakai laju harian 3 bulan penuh terakhir
+  function projection(u){
+    var D = A().DATA, last = D.last, y = 2026;
+    var ref = DAILY ? DAILY.ref : addDays(new Date(), -1);
+    var from = Math.max(0, last - 3), to = last - 1, kwh = 0, days = 0;
+    for (var i = from; i <= to; i++){ kwh += u.months[i].real; days += daysInMonth(y, i); }
+    if (!days){ kwh = u.realK; days = Math.max(1, (ref - new Date(y, 0, 1)) / 864e5 + 1); }
+    var rate = kwh / days;
+    var end = new Date(y, 11, 31), left = Math.max(0, Math.round((end - ref) / 864e5));
+    var proj = u.realK + rate * left;
+    var sisa = Math.max(0, u.targetYear - u.realK);
+    return { rate: rate, left: left, proj: proj, projAch: u.targetYear ? proj / u.targetYear * 100 : NaN, sisa: sisa, need: left ? sisa / left : 0, ref: ref, months: [from, to] };
+  }
+  function insights(u){
+    var D = A().DATA, last = D.last, M = A().MONTHS_FULL, out = [];
+    var ms = u.months.slice(0, last + 1);
+    var best = -1; ms.forEach(function(m, i){ if (best < 0 || m.real > ms[best].real) best = i; });
+    if (best >= 0) out.push({ ic: IC.star, t: 'Bulan terbaik', v: M[best], s: n0(ms[best].real) + ' kWh · ' + pct(ms[best].ach) + ' dari target bulanan' });
+    var hit = ms.filter(function(m){ return m.ach >= 100; }).length;
+    out.push({ ic: IC.flag, t: 'Bulan tercapai', v: hit + ' dari ' + ms.length + ' bulan', s: (ms.length - hit) ? (ms.length - hit) + ' bulan di bawah target bulanan' : 'Semua bulan memenuhi target' });
+    if (u.isUP3){
+      var L = A().ulps().slice().sort(function(a, b){ return b.achK - a.achK; });
+      if (L.length){
+        out.push({ ic: IC.up, t: 'ULP tertinggi', v: L[0].name, s: 'Pencapaian kumulatif ' + pct(L[0].achK) });
+        var lo = L[L.length - 1];
+        out.push({ ic: lo.achK >= 100 ? IC.check : IC.alert, t: 'ULP terendah', v: lo.name, s: 'Pencapaian kumulatif ' + pct(lo.achK) + (lo.achK >= 100 ? ' · tetap di atas target' : '') });
+      }
+    } else {
+      var U = A().up3();
+      out.push({ ic: IC.up, t: 'Kontribusi ke UP3', v: pct1(U.realK ? u.realK / U.realK * 100 : NaN), s: n0(u.realK) + ' dari ' + n0(U.realK) + ' kWh' });
+      var prev = last > 0 ? u.months[last - 1] : null, cur = u.months[last];
+      if (prev && cur) out.push({ ic: cur.real >= prev.real ? IC.up : IC.down, t: 'Dibanding bulan lalu', v: (cur.real >= prev.real ? '+' : '−') + n0(Math.abs(cur.real - prev.real)) + ' kWh', s: M[last] + ' (berjalan) vs ' + M[last - 1] });
+    }
+    return out;
+  }
+  function renderRingkasan(){
+    var P = A(), D = P.DATA, u = P.unitBy(P.CURRENT), last = D.last, mName = P.MONTHS_FULL[last] || '—';
+    var host = $('page-ringkasan');
+    var progs = programs(u), pr = projection(u), ins = insights(u);
+    var colors = [css('--real'), css('--s3'), css('--s2')];
+    var h = '<div class="page-head"><h2>Ringkasan kinerja</h2><p>' + esc(u.name) + ' · data s.d. ' + esc(mName) + ' 2026</p></div>';
+    // kartu program
+    h += '<div class="prog3">' + progs.map(function(p, i){
+      return '<section class="prog"><div class="prog-top"><span class="pic" style="--c:' + colors[i] + '">' + ICON(p.icon, 18) + '</span><h3>' + esc(p.name) + '</h3></div>' +
+        '<div class="prog-body"><div class="ringwrap">' + ring(p.achK, p.achY, colors[i]) + '<div class="ringtxt"><b>' + (isFinite(p.achK) ? num(p.achK, 1, '', '%') : '—') + '</b><span>kumulatif</span></div></div>' +
+        '<dl class="pdl"><div><dt>Realisasi s.d. ' + esc(P.MONTHS_SHORT[last] || '') + '</dt><dd>' + num(p.rK) + ' <small>' + p.unit + '</small></dd></div>' +
+        '<div><dt>Target kumulatif</dt><dd>' + n0(p.tK) + '</dd></div>' +
+        '<div><dt><i class="dot2"></i>Thd target tahunan</dt><dd>' + pct1(p.achY) + ' <small>dari ' + n0(p.tY) + '</small></dd></div>' +
+        '<div><dt>Bulan ' + esc(mName) + '</dt><dd>' + n0(p.lastR) + ' / ' + n0(p.lastT) + '</dd></div></dl></div>' +
+        '<button type="button" class="prog-go" data-page="' + p.key + '">Lihat detail →</button></section>';
+    }).join('') + '</div>';
+    // sorotan
+    h += '<div class="ins4">' + ins.map(function(x){ return '<div class="ins"><span class="iic">' + ICON(x.ic, 17) + '</span><div><div class="it">' + esc(x.t) + '</div><div class="iv">' + esc(x.v) + '</div><div class="is">' + esc(x.s) + '</div></div></div>'; }).join('') + '</div>';
+    // proyeksi + matriks
+    var projTxt = '<div class="projbox"><div class="pj"><span>Proyeksi akhir tahun</span><b>' + n0(pr.proj) + ' kWh</b><em class="' + (pr.projAch >= 100 ? 'up-t' : 'down-t') + '">' + pct1(pr.projAch) + ' dari target tahunan</em></div>' +
+      '<div class="pj"><span>Laju rata-rata</span><b>' + n0(pr.rate) + ' kWh/hari</b><em>' + esc(P.MONTHS_SHORT[pr.months[0]] + '–' + P.MONTHS_SHORT[pr.months[1]]) + ' (bulan penuh)</em></div>' +
+      '<div class="pj"><span>' + (pr.sisa > 0 ? 'Perlu per hari' : 'Target tahunan') + '</span><b>' + (pr.sisa > 0 ? n0(pr.need) + ' kWh/hari' : 'Tercapai') + '</b><em>' + (pr.sisa > 0 ? 'Sisa ' + n0(pr.sisa) + ' kWh · ' + pr.left + ' hari lagi' : 'Lebih ' + n0(u.realK - u.targetYear) + ' kWh') + '</em></div></div>';
+    h += '<div class="grid2">' + card('Proyeksi kWh sampai Desember', 'Garis putus-putus = proyeksi dengan laju rata-rata harian. Kuning = target kumulatif.',
+      projTxt + '<div class="chart"><canvas id="cProj" aria-label="Grafik realisasi kumulatif, proyeksi dan target"></canvas></div>') +
+      card('Peta capaian bulanan', 'Pencapaian per bulan terhadap target bulanan. Klik nama unit untuk melihat detailnya.',
+        seg('segHeat', [['p2tl', 'kWh P2TL'], ['meter', 'Ganti meter']], load('v3-heat') || 'p2tl') + '<div class="heat" id="heatM"></div>' + legendStatus() + '<p class="hint" style="margin-top:8px">Kolom bergaris = bulan berjalan (belum penuh).</p>') + '</div>';
+    // papan peringkat ULP + finansial
+    h += '<div class="grid2">' + card('Peringkat ULP', 'Diurutkan menurut pencapaian kumulatif kWh. Batang = porsi realisasi terhadap UP3.', '<div class="rank" id="rankUlp"></div>') +
+      card('Rupiah dan pembayaran', 'Tagihan susulan kumulatif ' + esc(u.name) + '.', '<div class="fin" id="finBox"></div>') + '</div>';
+    host.innerHTML = h;
+    Array.prototype.forEach.call(host.querySelectorAll('.prog-go'), function(b){ b.addEventListener('click', function(){ P.selectPage(b.getAttribute('data-page')); scrollTo({ top: 0, behavior: reduced() ? 'auto' : 'smooth' }); }); });
+    bindSeg('segHeat', function(v){ store('v3-heat', v); heatMatrix(v); });
+    heatMatrix(load('v3-heat') || 'p2tl');
+    rankUlp(u); finBox(u);
+    projChart(u, pr);
+    countUp(host);
+    if (!DAILY) loadDaily().then(function(){ if (P.PAGE === 'ringkasan') finBox(P.unitBy(P.CURRENT)); }, function(){});
+  }
+  function legendStatus(){
+    return '<div class="legend lstat"><span><i class="st g"></i>≥ 100%</span><span><i class="st y"></i>90–99%</span><span><i class="st r"></i>&lt; 90%</span><span><i class="st z"></i>0 / belum ada</span></div>';
+  }
+  function heatMatrix(kind){
+    var P = A(), D = P.DATA, last = D.last, units = [P.up3()].concat(P.ulps());
+    var head = '<div class="hm-row hm-h"><span></span>' + P.MONTHS_SHORT.map(function(m, i){ return '<span class="' + (i === last ? 'cur' : '') + '">' + m + '</span>'; }).join('') + '<span>Kum.</span></div>';
+    var rows = units.map(function(u){
+      var t, r;
+      if (kind === 'meter'){ var mm = D.meter[u.code] || { target: [], real: [] }; t = mm.target; r = mm.real; }
+      else { t = u.months.map(function(m){ return m.target; }); r = u.months.map(function(m){ return m.real; }); }
+      var tk = 0, rk = 0;
+      var cells = P.MONTHS_SHORT.map(function(m, i){
+        if (i > last) return '<span class="hc na" title="' + esc(u.name + ' · ' + P.MONTHS_FULL[i] + ': belum berjalan') + '"></span>';
+        tk += t[i] || 0; rk += r[i] || 0;
+        var a = t[i] ? r[i] / t[i] * 100 : NaN;
+        return '<span class="hc ' + cls(a) + (i === last ? ' cur' : '') + '" title="' + esc(u.name + ' · ' + P.MONTHS_FULL[i] + (i === last ? ' (berjalan)' : '') + ': ' + n0(r[i]) + ' dari target ' + n0(t[i]) + ' (' + pct(a) + ')') + '">' + (isFinite(a) ? Math.round(a) : '') + '</span>';
+      }).join('');
+      var ak = tk ? rk / tk * 100 : NaN;
+      return '<div class="hm-row' + (u.code === P.CURRENT ? ' sel' : '') + '"><button type="button" data-code="' + esc(u.code) + '">' + esc(u.name) + '</button>' + cells + '<span class="hc k ' + cls(ak) + '">' + (isFinite(ak) ? Math.round(ak) : '') + '</span></div>';
+    }).join('');
+    $('heatM').innerHTML = head + rows;
+    Array.prototype.forEach.call($('heatM').querySelectorAll('button[data-code]'), function(b){ b.addEventListener('click', function(){ P.selectUnit(b.getAttribute('data-code')); }); });
+  }
+  function rankUlp(u){
+    var P = A(), U = P.up3(), D = P.DATA, last = D.last;
+    var L = P.ulps().slice().sort(function(a, b){ return b.achK - a.achK; });
+    $('rankUlp').innerHTML = L.map(function(x, i){
+      var share = U.realK ? x.realK / U.realK * 100 : 0, m = P.series(D.meter[x.code], last);
+      return '<button type="button" class="rk' + (x.code === u.code ? ' sel' : '') + '" data-code="' + esc(x.code) + '"><span class="rn">' + (i + 1) + '</span>' +
+        '<span class="rb"><span class="rt1"><b>' + esc(x.name) + '</b>' + chip(x.achK) + '</span>' +
+        '<span class="rbar"><i style="width:' + share.toFixed(1) + '%"></i></span>' +
+        '<span class="rt2">' + n0(x.realK) + ' kWh · ' + pct1(share) + ' dari UP3 · meter ' + pct1(m.ach) + ' · Rp' + n0(x.rpkwh) + '/kWh</span></span></button>';
+    }).join('');
+    Array.prototype.forEach.call($('rankUlp').children, function(b){ b.addEventListener('click', function(){ P.selectUnit(b.getAttribute('data-code')); }); });
+  }
+  function finBox(u){
+    var el = $('finBox'); if (!el) return;
+    var h = '<div class="fgrid">' +
+      '<div><span>Tagihan susulan</span><b>' + rpS(u.ts) + '</b><em>Rp' + n0(u.ts) + '</em></div>' +
+      '<div><span>PPJ P2TL</span><b>' + rpS(u.ppj) + '</b><em>Total dengan PPJ ' + rpS(u.rt) + '</em></div>' +
+      '<div><span>Rupiah per kWh</span><b>Rp' + n0(u.rpkwh) + '</b><em>Tagihan susulan ÷ kWh</em></div>' +
+      '<div><span>Temuan</span><b>' + n0(u.temuan) + '</b><em>' + n0(u.pelCount) + ' pelanggaran · ' + n0(u.kelCount) + ' kelainan</em></div></div>';
+    if (DAILY){
+      var f = unitFilter(u.code), tun = 0, ang = 0, nA = 0;
+      DAILY.kasus.forEach(function(k){ if (!f(k.u)) return; tun += k.tunai; ang += k.angs; if (k.angs > 0) nA++; });
+      var tot = tun + ang, pt = tot ? tun / tot * 100 : 0;
+      h += '<div class="paybar"><div class="pbh"><span>Cara bayar (Rp total)</span><span>' + nA + ' pelanggan mengangsur</span></div>' +
+        '<div class="pb"><i class="t" style="width:' + pt.toFixed(1) + '%"></i><i class="a" style="width:' + (100 - pt).toFixed(1) + '%"></i></div>' +
+        '<div class="legend"><span><i style="background:var(--s3)"></i>Tunai ' + rpS(tun) + ' (' + pct1(pt) + ')</span><span><i style="background:var(--s4)"></i>Angsuran ' + rpS(ang) + ' (' + pct1(100 - pt) + ')</span></div></div>';
+    } else h += '<p class="hint" style="margin-top:12px">' + (DAILY_ERR ? 'Data pembayaran belum bisa dimuat.' : 'Memuat data pembayaran…') + '</p>';
+    el.innerHTML = h;
+  }
+  function projChart(u, pr){
+    var P = A(), last = P.DATA.last;
+    var tc = [], rc = [], pc = [], ts = 0, rs = 0;
+    for (var i = 0; i < 12; i++){
+      ts += u.months[i].target; tc.push(ts);
+      if (i <= last){ rs += u.months[i].real; rc.push(rs); } else rc.push(null);
+    }
+    // proyeksi: dari titik bulan berjalan ke akhir tiap bulan berikutnya
+    var ref = pr.ref;
+    for (var j = 0; j < 12; j++){
+      if (j < last) pc.push(null);
+      else if (j === last) pc.push(rs);
+      else { var endJ = new Date(2026, j + 1, 0); pc.push(u.realK + pr.rate * Math.max(0, (endJ - ref) / 864e5)); }
+    }
+    var o = P.baseOpts(P.bigTick);
+    o.plugins.tooltip.callbacks.label = function(c){ return c.parsed.y == null ? null : ' ' + c.dataset.label + ': ' + n0(c.parsed.y) + ' kWh'; };
+    P.draw('cProj', { type: 'line', data: { labels: P.MONTHS_SHORT, datasets: [
+      { label: 'Realisasi kumulatif', data: rc, borderColor: css('--real'), backgroundColor: css('--real'), borderWidth: 3, pointRadius: 3, tension: .25 },
+      { label: 'Proyeksi', data: pc, borderColor: css('--real'), borderDash: [5, 5], borderWidth: 2, pointRadius: function(c){ return c.dataIndex === 11 ? 5 : 0; }, pointBackgroundColor: css('--card'), pointBorderColor: css('--real'), tension: 0 },
+      { label: 'Target kumulatif', data: tc, borderColor: css('--tgtline'), backgroundColor: css('--tgt-fill'), fill: 'origin', borderWidth: 2, pointRadius: 0, tension: .2 }
+    ] }, options: o });
+  }
+
+  /* ================= HARIAN & TEMUAN ================= */
+  function renderHarian(){
+    var P = A(), u = P.unitBy(P.CURRENT), host = $('page-harian');
+    if (!DAILY){
+      host.innerHTML = '<div class="page-head"><h2>Harian &amp; temuan</h2><p>' + esc(u.name) + '</p></div><div class="status' + (DAILY_ERR ? ' err' : '') + '">' +
+        (DAILY_ERR ? '<b>Data harian belum bisa dimuat.</b> ' + esc(DAILY_ERR.message || DAILY_ERR) : 'Memuat data harian dari spreadsheet…') + '</div>';
+      loadDaily().then(function(){ if (P.PAGE === 'harian') renderHarian(); }, function(){ if (P.PAGE === 'harian') renderHarian(); });
+      return;
+    }
+    var ref = DAILY.ref, refIso = iso(ref), m = ref.getMonth();
+    var kS_ = dailySeries(u.code, 'kwh'), mS = dailySeries(u.code, 'meter');
+    var tK = dailyTarget(u.code, 'kwh', m), tM = dailyTarget(u.code, 'meter', m);
+    var st = function(S, T){
+      var y = S[refIso] || 0, s7 = 0, hit = 0, n = 0, streak = 0, best = null, bestV = 0, mon = 0;
+      for (var i = 0; i < 7; i++) s7 += S[iso(addDays(ref, -i))] || 0;
+      for (var d = new Date(ref.getFullYear(), m, 1); d <= ref; d = addDays(d, 1)){ var v = S[iso(d)] || 0; n++; mon += v; if (T && v >= T) hit++; if (v > bestV){ bestV = v; best = new Date(d); } }
+      for (var k = 0; k < 400; k++){ var v2 = S[iso(addDays(ref, -k))] || 0; if (T && v2 >= T) streak++; else break; }
+      return { y: y, a: T ? y / T * 100 : NaN, avg7: s7 / 7, hit: hit, n: n, streak: streak, best: best, bestV: bestV, mon: mon };
+    };
+    var a = st(kS_, tK), b = st(mS, tM);
+    var mFull = P.MONTHS_FULL[m];
+    var h = '<div class="page-head"><h2>Harian &amp; temuan</h2><p>' + esc(u.name) + ' · per tanggal register · H−1 = ' + esc(tglPanjang(ref)) + '</p></div>';
+    var kp = function(lbl, val, sub, extra, hero){ return '<div class="kpi' + (hero ? ' hero' : '') + '"><div class="lbl">' + lbl + '</div><div class="val">' + val + '</div>' + (extra || '') + (sub ? '<div class="sub">' + sub + '</div>' : '') + '</div>'; };
+    var pill = function(x){ return isFinite(x) ? (x >= 100 ? '<span class="pill up">▲ Tercapai</span>' : '<span class="pill down">▼ ' + pct1(x) + '</span>') : ''; };
+    h += '<div class="kpis five flat">' +
+      kp('kWh P2TL H−1', num(a.y), 'Target harian ' + n0(tK) + ' kWh', pill(a.a), true) +
+      kp('Ganti meter H−1', num(b.y), 'Target harian ' + n0(tM) + ' meter', pill(b.a)) +
+      kp('Rata-rata 7 hari', num(a.avg7) + ' <small class="u">kWh</small>', n0(b.avg7) + ' meter/hari') +
+      kp('Hari tercapai · ' + esc(mFull), a.hit + ' <small class="u">/ ' + a.n + ' hari</small>', 'Ganti meter ' + b.hit + ' / ' + b.n + ' hari') +
+      kp('Hari terbaik · ' + esc(mFull), a.best ? num(a.bestV) + ' <small class="u">kWh</small>' : '—', a.best ? tglPanjang(a.best) + (a.streak > 1 ? ' · ' + a.streak + ' hari beruntun tercapai' : '') : '') +
+      '</div>';
+    var kind = load('v3-cal') || 'kwh';
+    h += card('Kalender capaian harian 2026', 'Tiap kotak satu hari. Warna mengikuti capaian terhadap target harian (sama seperti rekap di sheet REALISASI HARIAN).',
+      seg('segCal', [['kwh', 'kWh P2TL'], ['meter', 'Ganti meter']], kind) + '<div class="calwrap"><div class="cal" id="calBox"></div></div>' + legendStatus() + '<div class="calsum" id="calSum"></div>', 'mb');
+    h += card('30 hari terakhir', 'Batang = realisasi harian, garis = rata-rata 7 hari, garis kuning putus-putus = target harian.',
+      seg('segD30', [['kwh', 'kWh P2TL'], ['meter', 'Ganti meter']], load('v3-d30') || 'kwh') + '<div class="chart tall"><canvas id="cD30" aria-label="Grafik realisasi harian 30 hari terakhir"></canvas></div>', 'mb');
+    h += '<div class="grid2">' +
+      card('Pola per hari dalam minggu', 'Rata-rata kWh P2TL per hari kerja/libur, Januari s.d. H−1.', '<div class="chart"><canvas id="cDow" aria-label="Rata-rata kWh per hari dalam minggu"></canvas></div>') +
+      card('Sebaran kWh per temuan', 'Jumlah temuan menurut besar kWh tagihan susulan.', '<div class="chart"><canvas id="cHist" aria-label="Histogram kWh per temuan"></canvas></div>') + '</div>';
+    h += '<div class="grid2">' +
+      card('Temuan menurut tarif', 'Jumlah temuan dan kWh per kelompok tarif.', '<div class="chart"><canvas id="cTarif" aria-label="Temuan menurut tarif"></canvas></div>') +
+      card('Temuan menurut daya', 'Jumlah temuan per kelompok daya tersambung (VA).', '<div class="chart"><canvas id="cDaya" aria-label="Temuan menurut daya"></canvas></div>') + '</div>';
+    h += card('10 temuan kWh terbesar', 'Tanpa nama dan IDPEL pelanggan. Data lengkap ada di sheet REALISASI KWH.', '<div class="tbl-wrap"><table id="tTop"></table></div>', 'mb');
+    host.innerHTML = h;
+    countUp(host);
+    bindSeg('segCal', function(v){ store('v3-cal', v); calendar(u, v); });
+    bindSeg('segD30', function(v){ store('v3-d30', v); d30(u, v); });
+    calendar(u, kind); d30(u, load('v3-d30') || 'kwh'); dow(u); temuanCharts(u); topTable(u);
+  }
+  function calendar(u, kind){
+    var P = A(), S = dailySeries(u.code, kind), ref = DAILY.ref, y = ref.getFullYear();
+    var start = new Date(y, 0, 1), first = addDays(start, -((start.getDay() + 6) % 7)); // mulai Senin
+    var cols = [], monthMarks = [], d = first, w = 0, stats = { g: 0, y: 0, r: 0, z: 0 };
+    var unitTxt = kind === 'meter' ? 'meter' : 'kWh';
+    while (d <= ref){
+      var col = '';
+      for (var i = 0; i < 7; i++){
+        var di = addDays(d, i);
+        if (di < start || di > ref){ col += '<i class="cd na"></i>'; continue; }
+        if (di.getDate() === 1) monthMarks.push([w, P.MONTHS_SHORT[di.getMonth()]]);
+        var T = dailyTarget(u.code, kind, di.getMonth()), v = S[iso(di)] || 0, a = T ? v / T * 100 : NaN, c = cls(a);
+        stats[c] = (stats[c] || 0) + 1;
+        col += '<i class="cd ' + c + (iso(di) === iso(ref) ? ' now' : '') + '" title="' + esc(HARI_FULL[di.getDay()] + ', ' + tglPanjang(di) + ': ' + n0(v) + ' ' + unitTxt + ' (' + (T ? pct1(a) : '—') + ' dari target ' + n0(T) + ')') + '"></i>';
+      }
+      cols.push('<div class="cw">' + col + '</div>');
+      d = addDays(d, 7); w++;
+    }
+    var marks = '<div class="cm">' + monthMarks.map(function(x){ return '<span style="left:calc(' + x[0] + ' * var(--cs))">' + x[1] + '</span>'; }).join('') + '</div>';
+    var days = '<div class="cdays"><span>Sen</span><span></span><span>Rab</span><span></span><span>Jum</span><span></span><span>Min</span></div>';
+    $('calBox').innerHTML = marks + '<div class="cgrid">' + days + cols.join('') + '</div>';
+    var tot = stats.g + stats.y + stats.r + stats.z;
+    $('calSum').innerHTML = '<b>' + stats.g + '</b> hari tercapai · <b>' + stats.y + '</b> hari 90–99% · <b>' + stats.r + '</b> hari di bawah 90% · <b>' + stats.z + '</b> hari nihil, dari ' + tot + ' hari';
+    var wrap = $('calBox').parentNode; wrap.scrollLeft = wrap.scrollWidth;
+  }
+  function d30(u, kind){
+    var P = A(), S = dailySeries(u.code, kind), ref = DAILY.ref, lab = [], val = [], tgt = [], ma = [], col = [];
+    for (var i = 29; i >= 0; i--){
+      var d = addDays(ref, -i), v = S[iso(d)] || 0, T = dailyTarget(u.code, kind, d.getMonth());
+      lab.push(d.getDate() + ' ' + P.MONTHS_SHORT[d.getMonth()]); val.push(v); tgt.push(T);
+      var s = 0; for (var k = 0; k < 7; k++) s += S[iso(addDays(d, -k))] || 0; ma.push(s / 7);
+      col.push(v >= T ? css('--real') : css('--muted-bar'));
+    }
+    var unitTxt = kind === 'meter' ? 'meter' : 'kWh';
+    var o = P.baseOpts(P.bigTick);
+    o.plugins.tooltip.callbacks.label = function(c){ return ' ' + c.dataset.label + ': ' + n0(c.parsed.y) + ' ' + unitTxt; };
+    o.plugins.tooltip.callbacks.footer = function(it){ var i = it[0].dataIndex; return tgt[i] ? 'Capaian ' + pct1(val[i] / tgt[i] * 100) : ''; };
+    o.scales.x.ticks = { color: css('--axis'), maxRotation: 0, autoSkip: true, maxTicksLimit: 10 };
+    P.draw('cD30', { type: 'bar', data: { labels: lab, datasets: [
+      { type: 'line', label: 'Rata-rata 7 hari', data: ma, borderColor: css('--s2'), borderWidth: 2, pointRadius: 0, tension: .3, order: 0 },
+      { type: 'line', label: 'Target harian', data: tgt, borderColor: css('--tgtline'), borderDash: [6, 4], borderWidth: 2, pointRadius: 0, stepped: true, order: 1 },
+      { label: 'Realisasi', data: val, backgroundColor: col, borderRadius: 4, maxBarThickness: 22, order: 2 }
+    ] }, options: o });
+  }
+  function dow(u){
+    var P = A(), S = dailySeries(u.code, 'kwh'), ref = DAILY.ref, s = [0, 0, 0, 0, 0, 0, 0], c = [0, 0, 0, 0, 0, 0, 0];
+    for (var d = new Date(ref.getFullYear(), 0, 1); d <= ref; d = addDays(d, 1)){ s[d.getDay()] += S[iso(d)] || 0; c[d.getDay()]++; }
+    var ord = [1, 2, 3, 4, 5, 6, 0], av = ord.map(function(i){ return c[i] ? s[i] / c[i] : 0; });
+    var mx = Math.max.apply(null, av);
+    var o = P.baseOpts(P.bigTick);
+    o.plugins.tooltip.callbacks.label = function(c2){ return ' Rata-rata: ' + n0(c2.parsed.y) + ' kWh/hari'; };
+    P.draw('cDow', { type: 'bar', data: { labels: ord.map(function(i){ return HARI_FULL[i]; }), datasets: [
+      { label: 'Rata-rata', data: av, backgroundColor: av.map(function(v){ return v === mx ? css('--real') : css('--muted-bar'); }), borderRadius: 6, maxBarThickness: 40 }] }, options: o });
+  }
+  function tarifGroup(t){
+    var c = (t.split('/')[0] || '').toUpperCase();
+    if (/^R/.test(c)) return 'Rumah tangga (R)';
+    if (/^B/.test(c)) return 'Bisnis (B)';
+    if (/^S/.test(c)) return 'Sosial (S)';
+    if (/^I/.test(c)) return 'Industri (I)';
+    if (/^P/.test(c)) return 'Pemerintah (P)';
+    return 'Lainnya';
+  }
+  var DAYA_B = [[0, 900, '≤ 900'], [901, 1300, '1.300'], [1301, 2200, '2.200'], [2201, 5500, '3.500–5.500'], [5501, 23000, '6.600–23.000'], [23001, 1e12, '> 23.000']];
+  function dayaBand(t){ var v = +(String(t).split('/')[1] || '').replace(/[^\d]/g, ''); if (!v) return null; for (var i = 0; i < DAYA_B.length; i++) if (v >= DAYA_B[i][0] && v <= DAYA_B[i][1]) return DAYA_B[i][2]; return null; }
+  var HIST_B = [[0, 999, '< 1 rb'], [1000, 2499, '1–2,5 rb'], [2500, 4999, '2,5–5 rb'], [5000, 9999, '5–10 rb'], [10000, 24999, '10–25 rb'], [25000, 1e12, '≥ 25 rb']];
+  function kasusOf(u){ var f = unitFilter(u.code); return DAILY.kasus.filter(function(k){ return f(k.u) && k.kwh > 0; }); }
+  function hbarOpts(P, unitTxt){
+    var o = P.baseOpts(function(v){ return n0(v); });
+    o.indexAxis = 'y';
+    o.scales = { x: { beginAtZero: true, grid: { color: css('--grid') }, border: { display: false }, ticks: { color: css('--axis2'), precision: 0 } }, y: { grid: { display: false }, ticks: { color: css('--axis') } } };
+    return o;
+  }
+  function temuanCharts(u){
+    var P = A(), K = kasusOf(u);
+    // histogram
+    var hc = HIST_B.map(function(b){ return K.filter(function(k){ return k.kwh >= b[0] && k.kwh <= b[1]; }).length; });
+    var o = P.baseOpts(function(v){ return n0(v); });
+    o.plugins.tooltip.callbacks.label = function(c){ return ' ' + n0(c.parsed.y) + ' temuan (' + pct1(K.length ? c.parsed.y / K.length * 100 : 0) + ')'; };
+    P.draw('cHist', { type: 'bar', data: { labels: HIST_B.map(function(b){ return b[2]; }), datasets: [{ label: 'Temuan', data: hc, backgroundColor: css('--s1'), borderRadius: 6, maxBarThickness: 44 }] }, options: o });
+    // tarif
+    var g = {}; K.forEach(function(k){ var t = tarifGroup(k.tarif); g[t] = g[t] || { n: 0, kwh: 0 }; g[t].n++; g[t].kwh += k.kwh; });
+    var keys = Object.keys(g).sort(function(a, b){ return g[b].n - g[a].n; });
+    var o2 = hbarOpts(P);
+    o2.plugins.tooltip.callbacks.label = function(c){ var x = g[keys[c.dataIndex]]; return ' ' + n0(x.n) + ' temuan · ' + n0(x.kwh) + ' kWh'; };
+    P.draw('cTarif', { type: 'bar', data: { labels: keys, datasets: [{ label: 'Temuan', data: keys.map(function(k){ return g[k].n; }), backgroundColor: css('--s3'), borderRadius: 6, maxBarThickness: 26 }] }, options: o2 });
+    // daya
+    var dc = {}; K.forEach(function(k){ var b = dayaBand(k.tarif); if (b) dc[b] = (dc[b] || 0) + 1; });
+    var dk = DAYA_B.map(function(b){ return b[2]; }).filter(function(b){ return dc[b]; });
+    var o3 = hbarOpts(P);
+    o3.plugins.tooltip.callbacks.label = function(c){ return ' ' + n0(c.parsed.x) + ' temuan'; };
+    P.draw('cDaya', { type: 'bar', data: { labels: dk.map(function(x){ return x + ' VA'; }), datasets: [{ label: 'Temuan', data: dk.map(function(b){ return dc[b]; }), backgroundColor: css('--s4'), borderRadius: 6, maxBarThickness: 26 }] }, options: o3 });
+  }
+  function topTable(u){
+    var P = A(), K = kasusOf(u).slice().sort(function(a, b){ return b.kwh - a.kwh; }).slice(0, 10);
+    var name = function(c){ return (P.unitBy(c) || {}).name || c; };
+    $('tTop').innerHTML = '<thead><tr><th>#</th><th>Tgl register</th><th>ULP</th><th>Gol.</th><th>Tarif/daya</th><th>kWh</th><th>Tagihan susulan</th><th>Pembayaran</th></tr></thead><tbody>' +
+      K.map(function(k, i){
+        return '<tr><td>' + (i + 1) + '</td><td>' + esc(tglPanjang(parseIso(k.d))) + '</td><td>' + esc(name(k.u)) + '</td><td><span class="gtag">' + esc(k.gol) + '</span></td><td>' + esc(k.tarif) + '</td><td><b>' + n0(k.kwh) + '</b></td><td>' + n0(k.ts) + '</td><td>' + (k.angs > 0 ? '<span class="chip warn">Angsuran</span>' : '<span class="chip up">Tunai</span>') + '</td></tr>';
+      }).join('') + '</tbody>';
+  }
+
+  /* ================= sparkline di kartu unit ================= */
+  function decorateCards(){
+    var P = A(); if (!P || !P.DATA) return;
+    Array.prototype.forEach.call(document.querySelectorAll('#tabs .tab'), function(b){
+      if (b.querySelector('.spark')) return;
+      var u = P.unitBy(b.getAttribute('data-code')), last = P.DATA.last, vals = u.months.slice(0, last + 1).map(function(m){ return m.ach; });
+      if (vals.length < 2) return;
+      var W = 120, H = 26, mx = Math.max.apply(null, vals.concat([110])), mn = Math.min.apply(null, vals.concat([60]));
+      var pts = vals.map(function(v, i){ return [(i / (vals.length - 1) * W).toFixed(1), (H - (v - mn) / (mx - mn) * H).toFixed(1)]; });
+      var y100 = (H - (100 - mn) / (mx - mn) * H).toFixed(1);
+      b.insertAdjacentHTML('beforeend', '<svg class="spark" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true"><line x1="0" x2="' + W + '" y1="' + y100 + '" y2="' + y100 + '" class="s100"/><polyline points="' + pts.map(function(p){ return p.join(','); }).join(' ') + '"/><circle cx="' + pts[pts.length - 1][0] + '" cy="' + pts[pts.length - 1][1] + '" r="2.6"/></svg>');
+    });
+  }
+
+  /* =====================================================================
+     UNDUH LAPORAN (PPT / PDF) — format PLN (latar & logo dari template)
+     ===================================================================== */
+  var LIBS = {
+    pptx: 'https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js',
+    pdf: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+  };
+  var loaded = {};
+  function loadScript(src){
+    if (loaded[src]) return loaded[src];
+    return (loaded[src] = new Promise(function(res, rej){ var s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = function(){ delete loaded[src]; rej(new Error('Gagal memuat ' + src)); }; document.head.appendChild(s); }));
+  }
+  var IMG = {};
+  function imgData(path){
+    if (IMG[path]) return IMG[path];
+    return (IMG[path] = fetch(path).then(function(r){ if (!r.ok) throw new Error('Gambar ' + path + ' tidak ada'); return r.blob(); }).then(function(b){
+      return new Promise(function(res){ var fr = new FileReader(); fr.onload = function(){ res(fr.result); }; fr.readAsDataURL(b); });
+    }));
+  }
+  var C = { blue: '0071BC', navy: '0B3A5B', grey: '5F6B73', dark: '1F2A33', green: '1E7A46', red: 'B42318', gold: 'D9A400', yel: 'FFE27A', real: '1273C4', line: 'C9DDE3', soft: 'F3F8FA', white: 'FFFFFF', amber: 'B54708' };
+  var SER = ['2A78D6', 'EB6834', '1BAF7A', 'EDA100', 'E87BA4', '008300'];
+
+  // ---- isi laporan (spesifikasi slide, dipakai bersama PPT & PDF) ----
+  function buildReport(){
+    var P = A(), D = P.DATA, u = P.unitBy(P.CURRENT), U = P.up3(), last = D.last, mFull = P.MONTHS_FULL[last], mS = P.MONTHS_SHORT;
+    var now = new Date(), stamp = tglPanjang(now) + ' ' + ('0' + now.getHours()).slice(-2) + '.' + ('0' + now.getMinutes()).slice(-2);
+    var foot = 'Sumber: spreadsheet Monitoring P2TL UP3 Sorong · diunduh dari dashboard ' + stamp;
+    var slides = [];
+    var progs = programs(u), pr = projection(u);
+    var good = function(a){ return !isFinite(a) ? null : a >= 100; };
+    var colOf = function(a){ return a >= 100 ? C.green : C.red; };
+
+    // 1. sampul
+    slides.push({ cover: true, els: [
+      { t: 'text', x: 0.9, y: 1.55, w: 6.2, h: 0.45, text: 'LAPORAN MONITORING', size: 18, color: C.blue, bold: true },
+      { t: 'text', x: 0.9, y: 2.0, w: 7.5, h: 0.9, text: 'Kinerja P2TL 2026', size: 44, color: C.navy, bold: true },
+      { t: 'text', x: 0.9, y: 2.9, w: 6.2, h: 0.45, text: 'PT PLN (Persero) ' + (u.isUP3 ? u.name : 'UP3 Sorong · ULP ' + u.name), size: 20, color: C.dark },
+      { t: 'text', x: 0.9, y: 3.4, w: 6.2, h: 0.35, text: 'Data bulanan s.d. ' + mFull + ' 2026', size: 14, color: C.grey },
+      { t: 'text', x: 0.9, y: 3.75, w: 6.2, h: 0.35, text: DAILY ? 'Data harian s.d. ' + tglPanjang(DAILY.ref) : '', size: 14, color: C.grey },
+      { t: 'text', x: 0.9, y: 4.15, w: 6.2, h: 0.35, text: 'Sorong, ' + tglPanjang(now), size: 14, color: C.grey, italic: true }
+    ] });
+
+    // 2. ringkasan
+    var els = [], cw = 2.78, gap = 0.17, x0 = 0.95;
+    var cards = [
+      ['P2TL kumulatif', pct(progs[0].achK), n0(progs[0].rK) + ' dari ' + n0(progs[0].tK) + ' kWh', good(progs[0].achK)],
+      ['P2TL thd target tahunan', pct(progs[0].achY), 'Target tahunan ' + n0(progs[0].tY) + ' kWh', good(progs[0].achY)],
+      ['Ganti meter kumulatif', pct(progs[1].achK), n0(progs[1].rK) + ' dari ' + n0(progs[1].tK) + ' meter', good(progs[1].achK)],
+      ['Tagihan susulan', rpS(u.ts), 'Rp' + n0(u.rpkwh) + '/kWh · ' + n0(u.temuan) + ' temuan', null]
+    ];
+    cards.forEach(function(c, i){ els.push({ t: 'stat', x: x0 + i * (cw + gap), y: 1.3, w: cw, h: 1.15, label: c[0], value: c[1], sub: c[2], good: c[3] }); });
+    var ins = insights(u).map(function(x){ return x.t + ': ' + x.v + ' (' + x.s + ')'; });
+    ins.push('Proyeksi akhir tahun ' + n0(pr.proj) + ' kWh (' + pct1(pr.projAch) + ' dari target tahunan) dengan laju ' + n0(pr.rate) + ' kWh/hari.');
+    if (pr.sisa > 0) ins.push('Sisa target tahunan ' + n0(pr.sisa) + ' kWh, perlu ' + n0(pr.need) + ' kWh/hari selama ' + pr.left + ' hari.');
+    ins.push('Pemeriksaan bertarget: ' + n0(progs[2].rK) + ' dari ' + n0(progs[2].tK) + ' (' + pct(progs[2].achK) + ').');
+    els.push({ t: 'box', x: x0, y: 2.65, w: 6.0, h: 4.0 });
+    els.push({ t: 'text', x: x0 + 0.15, y: 2.75, w: 5.7, h: 0.35, text: 'Sorotan', size: 13, color: C.navy, bold: true });
+    els.push({ t: 'bullets', x: x0 + 0.15, y: 3.1, w: 5.7, h: 3.45, items: ins, size: 11.5 });
+    var rows = [['ULP', 'Realisasi kum.', 'Capaian kum.', 'Thd thn']].concat(P.ulps().concat([U]).map(function(x){ return [x.name, n0(x.realK), pct(x.achK), pct1(x.achY)]; }));
+    els.push({ t: 'table', x: 7.15, y: 2.65, w: 5.25, rows: rows, colW: [1.65, 1.35, 1.2, 1.05], size: 11, rowH: 0.42, total: true, pctCols: [2] });
+    slides.push({ title: 'RINGKASAN KINERJA', sub: u.name + ' · kumulatif s.d. ' + mFull + ' 2026', foot: foot, els: els });
+
+    // 3. P2TL bulanan
+    var tm = u.months.map(function(m){ return m.target; }), rm = u.months.map(function(m, i){ return i <= last ? m.real : 0; });
+    var mrows = [['Bulan', 'Target', 'Realisasi', 'Capaian']];
+    u.months.forEach(function(m, i){ if (i <= last) mrows.push([P.MONTHS_FULL[i], n0(m.target), n0(m.real), pct(m.ach)]); });
+    mrows.push(['Kumulatif', n0(u.targetK), n0(u.realK), pct(u.achK)]);
+    slides.push({ title: 'P2TL · TARGET VS REALISASI BULANAN', sub: u.name + ' · kWh kedapatan 2026', foot: foot, els: [
+      { t: 'chart', kind: 'bar', x: 0.95, y: 1.3, w: 7.3, h: 5.4, title: 'kWh per bulan', labels: mS, series: [{ name: 'Target', values: tm, color: C.yel, line: C.gold }, { name: 'Realisasi', values: rm, color: C.real }] },
+      { t: 'table', x: 8.45, y: 1.3, w: 3.95, rows: mrows, colW: [1.15, 0.95, 0.95, 0.9], size: 9.5, rowH: 0.36, total: true, pctCols: [3] }
+    ] });
+
+    // 4. kumulatif + proyeksi
+    var tc = [], rc = [], pc = [], ts = 0, rs = 0;
+    for (var i = 0; i < 12; i++){ ts += u.months[i].target; tc.push(ts); if (i <= last){ rs += u.months[i].real; } rc.push(i <= last ? rs : null); }
+    for (var j = 0; j < 12; j++){ if (j < last) pc.push(null); else if (j === last) pc.push(rs); else pc.push(u.realK + pr.rate * Math.max(0, (new Date(2026, j + 1, 0) - pr.ref) / 864e5)); }
+    slides.push({ title: 'REALISASI KUMULATIF & PROYEKSI', sub: u.name + ' · laju rata-rata ' + mS[pr.months[0]] + '–' + mS[pr.months[1]] + ': ' + n0(pr.rate) + ' kWh/hari', foot: foot, els: [
+      { t: 'chart', kind: 'line', x: 0.95, y: 1.3, w: 8.0, h: 5.4, title: 'kWh kumulatif', labels: mS, series: [{ name: 'Realisasi kumulatif', values: rc, color: C.real }, { name: 'Proyeksi', values: pc, color: '7FB2E5', dash: true }, { name: 'Target kumulatif', values: tc, color: C.gold }] },
+      { t: 'stat', x: 9.15, y: 1.3, w: 3.25, h: 1.15, label: 'Realisasi s.d. ' + mFull, value: n0(u.realK) + ' kWh', sub: pct(u.achK) + ' dari target kumulatif', good: good(u.achK) },
+      { t: 'stat', x: 9.15, y: 2.6, w: 3.25, h: 1.15, label: 'Proyeksi akhir tahun', value: n0(pr.proj) + ' kWh', sub: pct1(pr.projAch) + ' dari target ' + n0(u.targetYear), good: good(pr.projAch) },
+      { t: 'stat', x: 9.15, y: 3.9, w: 3.25, h: 1.15, label: pr.sisa > 0 ? 'Perlu per hari' : 'Target tahunan', value: pr.sisa > 0 ? n0(pr.need) + ' kWh' : 'Tercapai', sub: pr.sisa > 0 ? 'Sisa ' + n0(pr.sisa) + ' kWh, ' + pr.left + ' hari' : 'Lebih ' + n0(u.realK - u.targetYear) + ' kWh', good: pr.sisa > 0 ? null : true }
+    ] });
+
+    // 5. perbandingan ULP
+    var urows = [['ULP', 'Target kum.', 'Realisasi kum.', 'Capaian', 'Target thn', 'Thd thn', 'Tagihan susulan', 'Rp/kWh', 'Temuan']];
+    P.ulps().concat([U]).forEach(function(x){ urows.push([x.name, n0(x.targetK), n0(x.realK), pct(x.achK), n0(x.targetYear), pct1(x.achY), n0(x.ts), n0(x.rpkwh), n0(x.temuan)]); });
+    slides.push({ title: 'PERBANDINGAN ULP', sub: 'P2TL kumulatif s.d. ' + mFull + ' 2026', foot: foot, els: [
+      { t: 'table', x: 0.95, y: 1.3, w: 11.45, rows: urows, colW: [1.7, 1.25, 1.35, 1.0, 1.25, 1.0, 1.75, 0.95, 1.2], size: 11, rowH: 0.42, total: true, pctCols: [3, 5] },
+      { t: 'chart', kind: 'hbar', x: 0.95, y: 4.1, w: 5.6, h: 2.65, title: 'Capaian kumulatif (%)', labels: P.ulps().map(function(x){ return x.name; }), series: [{ name: 'Capaian', values: P.ulps().map(function(x){ return +x.achK.toFixed(2); }), color: C.real }], pctAxis: true },
+      { t: 'chart', kind: 'hbar', x: 6.8, y: 4.1, w: 5.6, h: 2.65, title: 'Ganti meter: capaian kumulatif (%)', labels: P.ulps().map(function(x){ return x.name; }), series: [{ name: 'Capaian', values: P.ulps().map(function(x){ var s = P.series(D.meter[x.code], last); return +(s.ach || 0).toFixed(2); }), color: '1BAF7A' }], pctAxis: true }
+    ] });
+
+    // 6. komposisi temuan
+    var G = P.GOL, gl = G.filter(function(g){ return u['k' + g] > 0 || u[g] > 0; });
+    var gser = gl.map(function(g, k){ return { name: g, values: u.months.slice(0, last + 1).map(function(m){ return m['k' + g]; }), color: SER[k % SER.length] }; });
+    var grows = [['Gol.', 'Temuan', 'kWh', 'Porsi kWh']];
+    var gk = sum(gl.map(function(g){ return u['k' + g]; }));
+    gl.forEach(function(g){ grows.push([g, n0(u[g]), n0(u['k' + g]), pct1(gk ? u['k' + g] / gk * 100 : 0)]); });
+    grows.push(['Total', n0(u.temuan), n0(gk), '100%']);
+    slides.push({ title: 'KOMPOSISI TEMUAN', sub: u.name + ' · kWh kedapatan per golongan pelanggaran/kelainan', foot: foot, els: [
+      { t: 'chart', kind: 'stack', x: 0.95, y: 1.3, w: 7.3, h: 5.4, title: 'kWh per golongan per bulan', labels: mS.slice(0, last + 1), series: gser },
+      { t: 'table', x: 8.45, y: 1.3, w: 3.95, rows: grows, colW: [0.75, 0.95, 1.2, 1.05], size: 11, rowH: 0.42, total: true }
+    ] });
+
+    // 7. harian
+    if (DAILY){
+      var ref = DAILY.ref, S = dailySeries(u.code, 'kwh'), lab = [], val = [], tgt = [];
+      for (var q = 29; q >= 0; q--){ var dq = addDays(ref, -q); lab.push(dq.getDate() + '/' + (dq.getMonth() + 1)); val.push(S[iso(dq)] || 0); tgt.push(Math.round(dailyTarget(u.code, 'kwh', dq.getMonth()))); }
+      var mm = ref.getMonth(), drows = [['Unit', 'Total bulan ini', 'Rata-rata/hari', 'Hari tercapai', 'H-1']];
+      [U].concat(P.ulps()).forEach(function(x){
+        var Sx = dailySeries(x.code, 'kwh'), T = dailyTarget(x.code, 'kwh', mm), tot = 0, n = 0, hit = 0;
+        for (var dd = new Date(ref.getFullYear(), mm, 1); dd <= ref; dd = addDays(dd, 1)){ var v = Sx[iso(dd)] || 0; tot += v; n++; if (v >= T) hit++; }
+        drows.push([x.name, n0(tot), n0(tot / Math.max(1, n)), hit + ' / ' + n, n0(Sx[iso(ref)] || 0)]);
+      });
+      slides.push({ title: 'REALISASI HARIAN P2TL', sub: u.name + ' · 30 hari terakhir s.d. ' + tglPanjang(ref) + ' · target harian ' + n0(dailyTarget(u.code, 'kwh', mm)) + ' kWh', foot: foot, els: [
+        { t: 'chart', kind: 'barline', x: 0.95, y: 1.3, w: 11.45, h: 3.25, title: 'kWh per hari', labels: lab, series: [{ name: 'Realisasi', values: val, color: C.real }, { name: 'Target harian', values: tgt, color: C.gold, asLine: true }] },
+        { t: 'table', x: 0.95, y: 4.75, w: 11.45, rows: drows, colW: [2.65, 2.3, 2.3, 2.1, 2.1], size: 10.5, rowH: 0.34, firstBold: true }
+      ] });
+    }
+
+    // 8. ganti meter
+    var Mu = D.meter[u.code] || { target: [], real: [] }, sm = P.series(Mu, last);
+    var mrows2 = [['ULP', 'Target kum.', 'Realisasi kum.', 'Capaian', 'Target thn', 'Thd thn']];
+    P.ulps().concat([U]).forEach(function(x){ var s = P.series(D.meter[x.code], last); mrows2.push([x.name, n0(s.tK), n0(s.rK), pct(s.ach), n0(s.tY), pct1(s.achY)]); });
+    slides.push({ title: 'PENGGANTIAN kWh METER', sub: u.name + ' · ' + n0(sm.rK) + ' dari ' + n0(sm.tK) + ' meter (' + pct(sm.ach) + ') s.d. ' + mFull, foot: foot, els: [
+      { t: 'chart', kind: 'bar', x: 0.95, y: 1.3, w: 6.6, h: 5.4, title: 'Meter per bulan', labels: mS, series: [{ name: 'Target', values: Mu.target.map(function(v){ return v || 0; }), color: C.yel, line: C.gold }, { name: 'Realisasi', values: Mu.real.map(function(v, i){ return i <= last ? (v || 0) : 0; }), color: '1BAF7A' }] },
+      { t: 'table', x: 7.75, y: 1.3, w: 4.65, rows: mrows2.map(function(r){ return [r[0], r[2], r[3], r[5]]; }), colW: [1.5, 1.15, 1.0, 1.0], size: 11, rowH: 0.42, total: true, pctCols: [2] }
+    ] });
+
+    // 9. pemeriksaan
+    var prow = [['Jenis pemeriksaan'].concat(P.ulps().concat([U]).map(function(x){ return x.name; }))];
+    D.periksa.forEach(function(p){
+      prow.push([p.name].concat(P.ulps().concat([U]).map(function(x){ var s = P.series(p.byUnit[x.code], last); return p.hasTarget && s.tK ? n0(s.rK) + ' / ' + n0(s.tK) + ' (' + pct1(s.ach) + ')' : n0(s.rK); })));
+    });
+    slides.push({ title: 'PEMERIKSAAN', sub: 'Realisasi / target kumulatif s.d. ' + mFull + ' 2026', foot: foot, els: [
+      { t: 'table', x: 0.95, y: 1.3, w: 11.45, rows: prow, colW: [2.45, 1.8, 1.8, 1.8, 1.8, 1.8], size: 11, rowH: 0.48, firstBold: true }
+    ] });
+    return { slides: slides, unit: u, fileBase: 'Laporan_P2TL_' + u.name.replace(/\s+/g, '_') + '_' + iso(now) };
+  }
+
+  // ---- PPTX ----
+  function toPptx(R, bg){
+    var pres = new PptxGenJS();
+    pres.layout = 'LAYOUT_WIDE'; pres.author = 'PLN UP3 Sorong'; pres.title = 'Laporan Kinerja P2TL ' + R.unit.name;
+    pres.theme = { headFontFace: 'Arial', bodyFontFace: 'Arial' };
+    R.slides.forEach(function(s){
+      var sl = pres.addSlide();
+      sl.background = { data: s.cover ? bg.cover : bg.slide };
+      if (s.title){
+        sl.addText(s.title, { x: 1.0, y: 0.25, w: 10.2, h: 0.55, fontSize: 24, bold: true, color: C.blue, fontFace: 'Arial', margin: 0, isTextBox: true });
+        if (s.sub) sl.addText(s.sub, { x: 1.0, y: 0.78, w: 10.2, h: 0.35, fontSize: 13, italic: true, color: C.grey, fontFace: 'Arial', margin: 0, isTextBox: true });
+      }
+      if (s.foot) sl.addText(s.foot, { x: 1.0, y: 7.05, w: 10.5, h: 0.25, fontSize: 9, italic: true, color: C.grey, margin: 0, isTextBox: true });
+      s.els.forEach(function(e){ pptEl(pres, sl, e); });
+    });
+    // simpan ulang tanpa entri folder di ZIP supaya aman dibuka lewat OneDrive/SharePoint
+    return pres.write({ outputType: 'arraybuffer' }).then(function(buf){
+      if (!window.JSZip) return new Blob([buf]);
+      return JSZip.loadAsync(buf).then(function(z){
+        var out = new JSZip();
+        var files = Object.keys(z.files).filter(function(n){ return !z.files[n].dir; });
+        return Promise.all(files.map(function(n){ return z.files[n].async('uint8array').then(function(d){ out.file(n, d, { createFolders: false }); }); }))
+          .then(function(){ return out.generateAsync({ type: 'blob', compression: 'DEFLATE', mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' }); });
+      });
+    }).then(function(blob){ saveBlob(blob, R.fileBase + '.pptx'); });
+  }
+  function saveBlob(blob, name){
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+  }
+  function pptEl(pres, sl, e){
+    var S = pres.ShapeType, CH = pres.ChartType;
+    if (e.t === 'text'){
+      sl.addText(e.text, { x: e.x, y: e.y, w: e.w, h: e.h, fontSize: e.size, color: e.color, bold: !!e.bold, italic: !!e.italic, fontFace: 'Arial', margin: 0, valign: 'middle', isTextBox: true });
+    } else if (e.t === 'box'){
+      sl.addShape(S.roundRect, { x: e.x, y: e.y, w: e.w, h: e.h, fill: { color: C.white }, line: { color: C.line, width: 0.75 }, rectRadius: 0.08 });
+    } else if (e.t === 'stat'){
+      sl.addShape(S.roundRect, { x: e.x, y: e.y, w: e.w, h: e.h, fill: { color: C.white }, line: { color: C.line, width: 0.75 }, rectRadius: 0.08 });
+      sl.addText(e.label, { x: e.x + 0.14, y: e.y + 0.08, w: e.w - 0.28, h: 0.28, fontSize: 11, bold: true, color: C.grey, margin: 0, isTextBox: true });
+      sl.addText(e.value, { x: e.x + 0.14, y: e.y + 0.36, w: e.w - 0.28, h: 0.45, fontSize: 22, bold: true, color: e.good == null ? C.blue : (e.good ? C.green : C.red), margin: 0, isTextBox: true });
+      sl.addText(e.sub, { x: e.x + 0.14, y: e.y + 0.8, w: e.w - 0.28, h: 0.28, fontSize: 10, color: C.grey, margin: 0, isTextBox: true });
+    } else if (e.t === 'bullets'){
+      sl.addText(e.items.map(function(t, i){ return { text: t, options: { bullet: true, breakLine: i < e.items.length - 1, paraSpaceAfter: 6 } }; }),
+        { x: e.x, y: e.y, w: e.w, h: e.h, fontSize: e.size, color: C.dark, valign: 'top', margin: 2, isTextBox: true });
+    } else if (e.t === 'table'){
+      var rows = e.rows.map(function(r, ri){
+        var isHead = ri === 0, isTot = e.total && ri === e.rows.length - 1;
+        return r.map(function(c, ci){
+          var o = { fontSize: e.size, color: C.dark, align: ci === 0 ? 'left' : 'right', valign: 'middle', fill: { color: ri % 2 ? C.white : 'F3F8FA' }, margin: [2, 5, 2, 5] };
+          if (isHead){ o.bold = true; o.color = C.white; o.fill = { color: C.blue }; o.align = ci === 0 ? 'left' : 'center'; }
+          if (isTot){ o.bold = true; o.fill = { color: 'DCEBF3' }; }
+          if (e.firstBold && ci === 0 && !isHead) o.bold = true;
+          if (!isHead && e.pctCols && e.pctCols.indexOf(ci) >= 0){ var v = pnum(c); if (isFinite(v)){ o.color = v >= 100 ? C.green : C.red; o.bold = true; } }
+          return { text: String(c), options: o };
+        });
+      });
+      sl.addTable(rows, { x: e.x, y: e.y, w: e.w, colW: e.colW, rowH: e.rowH, border: { type: 'solid', pt: 0.5, color: 'D5E3E8' }, fontFace: 'Arial', autoPage: false });
+    } else if (e.t === 'chart'){
+      var base = { x: e.x, y: e.y, w: e.w, h: e.h, showTitle: true, title: e.title, titleFontSize: 12, titleColor: C.navy, titleFontFace: 'Arial',
+        showLegend: e.series.length > 1, legendPos: 'b', legendFontSize: 10, legendFontFace: 'Arial', legendColor: C.grey,
+        catAxisLabelColor: C.grey, valAxisLabelColor: C.grey, catAxisLabelFontSize: 9, valAxisLabelFontSize: 9, catAxisLabelFontFace: 'Arial', valAxisLabelFontFace: 'Arial',
+        valGridLine: { color: 'E1E8EB', size: 0.5 }, catGridLine: { style: 'none' }, valAxisLabelFormatCode: e.pctAxis ? '0"%"' : '#,##0',
+        plotArea: { fill: { color: C.white } } };
+      var data = function(list){ return list.map(function(s){ return { name: s.name, labels: e.labels, values: s.values.map(function(v){ return v == null ? null : Math.round(v * 100) / 100; }) }; }); };
+      if (e.kind === 'bar'){
+        sl.addChart(CH.bar, data(e.series), Object.assign(base, { barDir: 'col', barGapWidthPct: 60, chartColors: e.series.map(function(s){ return s.color; }) }));
+      } else if (e.kind === 'stack'){
+        sl.addChart(CH.bar, data(e.series), Object.assign(base, { barDir: 'col', barGrouping: 'stacked', barGapWidthPct: 50, chartColors: e.series.map(function(s){ return s.color; }) }));
+      } else if (e.kind === 'hbar'){
+        sl.addChart(CH.bar, data(e.series), Object.assign(base, { barDir: 'bar', barGapWidthPct: 70, chartColors: e.series.map(function(s){ return s.color; }), showValue: true, dataLabelFormatCode: '0.00"%"', dataLabelFontSize: 10, dataLabelColor: C.dark, dataLabelPosition: 'outEnd', valAxisMinVal: 0 }));
+      } else if (e.kind === 'line'){
+        sl.addChart(CH.line, data(e.series), Object.assign(base, { lineSize: 2, lineDataSymbol: 'none', chartColors: e.series.map(function(s){ return s.color; }) }));
+      } else if (e.kind === 'barline'){
+        var bars = e.series.filter(function(s){ return !s.asLine; }), lines = e.series.filter(function(s){ return s.asLine; });
+        sl.addChart([
+          { type: CH.bar, data: data(bars), options: { barDir: 'col', barGapWidthPct: 40, chartColors: bars.map(function(s){ return s.color; }) } },
+          { type: CH.line, data: data(lines), options: { lineSize: 2, lineDataSymbol: 'none', chartColors: lines.map(function(s){ return s.color; }), lineDash: 'dash' } }
+        ], base);
+      }
+    }
+  }
+  function pnum(s){ var m = String(s).match(/(-?[\d.]+(?:,\d+)?)\s*%/); return m ? +m[1].replace(/\./g, '').replace(',', '.') : NaN; }
+
+  // ---- PDF ----
+  function pdfTxt(s){ return String(s).replace(/−/g, '-').replace(/[▲▼]/g, '').replace(/≥/g, '>=').replace(/≤/g, '<=').replace(/÷/g, '/'); }
+  function hex(c){ return '#' + c; }
+  function chartImage(e, wpx, hpx){
+    var cv = document.createElement('canvas'); cv.width = wpx; cv.height = hpx;
+    cv.style.cssText = 'position:fixed;left:-9999px;top:0;width:' + wpx + 'px;height:' + hpx + 'px';
+    document.body.appendChild(cv);
+    var F = "'Helvetica', Arial, sans-serif", fs = Math.round(Math.max(15, Math.min(wpx / 48, hpx / 24)));
+    var ds, type = 'bar', opts = { responsive: false, animation: false, devicePixelRatio: 1,
+      plugins: { legend: { display: e.series.length > 1, position: 'bottom', labels: { font: { family: F, size: fs }, color: '#5F6B73', boxWidth: fs, boxHeight: fs } },
+        title: { display: true, text: e.title, font: { family: F, size: Math.round(fs * 1.15), weight: 'bold' }, color: '#0B3A5B' } },
+      scales: { x: { grid: { display: false }, ticks: { font: { family: F, size: fs }, color: '#5F6B73' } },
+        y: { beginAtZero: true, grid: { color: '#E1E8EB' }, border: { display: false }, ticks: { font: { family: F, size: fs }, color: '#5F6B73', callback: function(v){ return e.pctAxis ? v + '%' : kS(v); } } } } };
+    if (e.kind === 'bar' || e.kind === 'stack'){
+      ds = e.series.map(function(s){ return { label: s.name, data: s.values, backgroundColor: hex(s.color), borderColor: s.line ? hex(s.line) : hex(s.color), borderWidth: s.line ? 1 : 0, borderRadius: 3, maxBarThickness: wpx / 20 }; });
+      if (e.kind === 'stack'){ opts.scales.x.stacked = true; opts.scales.y.stacked = true; }
+    } else if (e.kind === 'hbar'){
+      ds = e.series.map(function(s){ return { label: s.name, data: s.values, backgroundColor: hex(s.color), borderRadius: 3, maxBarThickness: hpx / 7 }; });
+      opts.indexAxis = 'y';
+      opts.scales = { x: { beginAtZero: true, grid: { color: '#E1E8EB' }, ticks: { font: { family: F, size: fs }, color: '#5F6B73', callback: function(v){ return v + '%'; } } }, y: { grid: { display: false }, ticks: { font: { family: F, size: fs }, color: '#1F2A33' } } };
+      opts.plugins.legend.display = false;
+      opts.layout = { padding: { right: fs * 5 } };
+    } else if (e.kind === 'line'){
+      type = 'line';
+      ds = e.series.map(function(s){ return { label: s.name, data: s.values, borderColor: hex(s.color), backgroundColor: hex(s.color), borderWidth: fs / 4, pointRadius: 0, borderDash: s.dash ? [fs, fs / 1.5] : [], tension: .2 }; });
+    } else if (e.kind === 'barline'){
+      ds = e.series.map(function(s){ return s.asLine ? { type: 'line', label: s.name, data: s.values, borderColor: hex(s.color), borderDash: [fs, fs / 1.5], borderWidth: fs / 5, pointRadius: 0, stepped: true } : { label: s.name, data: s.values, backgroundColor: hex(s.color), borderRadius: 3 }; });
+      opts.scales.x.ticks.maxRotation = 0; opts.scales.x.ticks.autoSkip = true; opts.scales.x.ticks.maxTicksLimit = 15;
+    }
+    // label nilai di ujung batang horizontal
+    var vlab = { id: 'vlab', afterDatasetsDraw: function(ch){ if (e.kind !== 'hbar') return; var c = ch.ctx; c.save(); c.font = 'bold ' + fs + 'px Helvetica, Arial'; c.fillStyle = '#1F2A33'; c.textBaseline = 'middle';
+      ch.getDatasetMeta(0).data.forEach(function(b, i){ c.fillText(fmt2.format(e.series[0].values[i]) + '%', b.x + 6, b.y); }); c.restore(); } };
+    var white = { id: 'white', beforeDraw: function(ch){ var c = ch.ctx; c.save(); c.fillStyle = '#FFFFFF'; c.fillRect(0, 0, ch.width, ch.height); c.restore(); } };
+    var chart = new Chart(cv, { type: type, data: { labels: e.labels, datasets: ds }, options: opts, plugins: [white, vlab] });
+    var url = cv.toDataURL('image/png');
+    chart.destroy(); cv.remove();
+    return url;
+  }
+  function toPdf(R, bg){
+    var J = window.jspdf.jsPDF, doc = new J({ orientation: 'landscape', unit: 'in', format: [13.333, 7.5], compress: true });
+    R.slides.forEach(function(s, si){
+      if (si) doc.addPage([13.333, 7.5], 'landscape');
+      doc.addImage(s.cover ? bg.cover : bg.slide, 'JPEG', 0, 0, 13.333, 7.5, s.cover ? 'bgc' : 'bgs', 'FAST');
+      if (s.title){
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(24); doc.setTextColor(hex(C.blue)); doc.text(pdfTxt(s.title), 1.0, 0.25 + 0.4);
+        if (s.sub){ doc.setFont('helvetica', 'italic'); doc.setFontSize(13); doc.setTextColor(hex(C.grey)); doc.text(pdfTxt(s.sub), 1.0, 0.78 + 0.24); }
+      }
+      if (s.foot){ doc.setFont('helvetica', 'italic'); doc.setFontSize(9); doc.setTextColor(hex(C.grey)); doc.text(pdfTxt(s.foot), 1.0, 7.05 + 0.17); }
+      s.els.forEach(function(e){ pdfEl(doc, e); });
+    });
+    doc.save(R.fileBase + '.pdf');
+  }
+  function pdfEl(doc, e){
+    var pt = 1 / 72;
+    var box = function(x, y, w, h){ doc.setFillColor('#FFFFFF'); doc.setDrawColor(hex(C.line)); doc.setLineWidth(0.75 * pt); doc.roundedRect(x, y, w, h, 0.08, 0.08, 'FD'); };
+    if (e.t === 'text'){
+      doc.setFont('helvetica', e.bold ? 'bold' : (e.italic ? 'italic' : 'normal')); doc.setFontSize(e.size); doc.setTextColor(hex(e.color));
+      doc.text(pdfTxt(e.text), e.x, e.y + e.h / 2, { baseline: 'middle' });
+    } else if (e.t === 'box'){ box(e.x, e.y, e.w, e.h);
+    } else if (e.t === 'stat'){
+      box(e.x, e.y, e.w, e.h);
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(hex(C.grey)); doc.text(pdfTxt(e.label), e.x + 0.14, e.y + 0.26);
+      doc.setFontSize(22); doc.setTextColor(hex(e.good == null ? C.blue : (e.good ? C.green : C.red))); doc.text(pdfTxt(e.value), e.x + 0.14, e.y + 0.7);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(hex(C.grey)); doc.text(pdfTxt(e.sub), e.x + 0.14, e.y + 0.98);
+    } else if (e.t === 'bullets'){
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(e.size); doc.setTextColor(hex(C.dark));
+      var y = e.y + 0.2, lh = e.size * 1.35 * pt;
+      e.items.forEach(function(t){
+        var lines = doc.splitTextToSize(pdfTxt(t), e.w - 0.25);
+        doc.setFillColor(hex(C.blue)); doc.circle(e.x + 0.07, y - lh * 0.3, 0.035, 'F');
+        doc.text(lines, e.x + 0.22, y); y += lines.length * lh + 0.09;
+      });
+    } else if (e.t === 'table'){
+      var y2 = e.y, sc = e.w / sum(e.colW);
+      e.rows.forEach(function(r, ri){
+        var isHead = ri === 0, isTot = e.total && ri === e.rows.length - 1, x = e.x;
+        doc.setFillColor(isHead ? hex(C.blue) : isTot ? '#DCEBF3' : (ri % 2 ? '#FFFFFF' : '#F3F8FA'));
+        doc.setDrawColor('#D5E3E8'); doc.setLineWidth(0.5 * pt);
+        doc.rect(e.x, y2, e.w, e.rowH, 'FD');
+        r.forEach(function(c, ci){
+          var w = e.colW[ci] * sc, bold = isHead || isTot || (e.firstBold && ci === 0), col = isHead ? '#FFFFFF' : hex(C.dark);
+          if (!isHead && e.pctCols && e.pctCols.indexOf(ci) >= 0){ var v = pnum(c); if (isFinite(v)){ col = hex(v >= 100 ? C.green : C.red); bold = true; } }
+          doc.setFont('helvetica', bold ? 'bold' : 'normal'); doc.setFontSize(e.size); doc.setTextColor(col);
+          var txt = pdfTxt(c), maxW = w - 0.12;
+          while (doc.getTextWidth(txt) > maxW && txt.length > 3) txt = txt.slice(0, -2) + '…';
+          var al = ci === 0 ? 'left' : (isHead ? 'center' : 'right'), tx = al === 'left' ? x + 0.07 : al === 'right' ? x + w - 0.07 : x + w / 2;
+          doc.text(txt, tx, y2 + e.rowH / 2, { baseline: 'middle', align: al });
+          if (ci) { doc.setDrawColor('#D5E3E8'); doc.line(x, y2, x, y2 + e.rowH); }
+          x += w;
+        });
+        y2 += e.rowH;
+      });
+    } else if (e.t === 'chart'){
+      box(e.x, e.y, e.w, e.h);
+      var img = chartImage(e, Math.round(e.w * 150), Math.round(e.h * 150));
+      doc.addImage(img, 'PNG', e.x + 0.06, e.y + 0.06, e.w - 0.12, e.h - 0.12, undefined, 'FAST');
+    }
+  }
+
+  function download(kind){
+    var btn = $('dlBtn'), lbl = btn.querySelector('.bl'), old = lbl ? lbl.textContent : '';
+    closeMenu(); btn.disabled = true; if (lbl) lbl.textContent = 'Menyiapkan…';
+    toast('Menyiapkan laporan ' + (kind === 'pptx' ? 'PowerPoint' : 'PDF') + '…');
+    var dailyP = DAILY ? Promise.resolve() : loadDaily().catch(function(){});
+    Promise.all([loadScript(LIBS[kind]), imgData('assets/bg-cover.jpg'), imgData('assets/bg-slide.jpg'), dailyP]).then(function(r){
+      var R = buildReport(), bg = { cover: r[1], slide: r[2] };
+      return kind === 'pptx' ? toPptx(R, bg) : toPdf(R, bg);
+    }).then(function(){ toast('Laporan sudah diunduh.', 'ok'); }, function(e){ console.error(e); toast('Laporan gagal dibuat: ' + (e && e.message || e), 'err'); })
+      .then(function(){ btn.disabled = false; if (lbl) lbl.textContent = old; });
+  }
+  function toast(msg, kind){
+    var t = $('v3toast'); if (!t){ t = document.createElement('div'); t.id = 'v3toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.className = 'v3toast show ' + (kind || ''); t.textContent = msg;
+    clearTimeout(toast.h); toast.h = setTimeout(function(){ t.className = 'v3toast ' + (kind || ''); }, kind ? 3500 : 15000);
+  }
+  function closeMenu(){ var m = $('dlMenu'); if (m){ m.hidden = true; $('dlBtn').setAttribute('aria-expanded', 'false'); } }
+  function initMenu(){
+    var btn = $('dlBtn'), menu = $('dlMenu');
+    if (!btn) return;
+    btn.addEventListener('click', function(ev){
+      ev.stopPropagation();
+      var open = menu.hidden; menu.hidden = !open; btn.setAttribute('aria-expanded', String(open));
+      if (open){ var P = A(); $('dlUnit').textContent = P && P.DATA ? P.unitBy(P.CURRENT).name : '—'; menu.querySelector('button').focus(); }
+    });
+    document.addEventListener('click', function(ev){ if (!menu.hidden && !menu.contains(ev.target)) closeMenu(); });
+    document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') closeMenu(); });
+    Array.prototype.forEach.call(menu.querySelectorAll('button[data-dl]'), function(b){ b.addEventListener('click', function(){ download(b.getAttribute('data-dl')); }); });
+  }
+
+  window.V3 = {
+    render: function(page){ if (page === 'ringkasan') renderRingkasan(); else if (page === 'harian') renderHarian(); },
+    afterRender: function(){ decorateCards(); var P = A(); if (P.PAGE !== 'ringkasan' && P.PAGE !== 'harian') countUp(document.getElementById('page-' + P.PAGE)); },
+    onRefresh: function(){ DAILY_AT = 0; loadDaily(true).then(function(){ var P = A(); if (P.PAGE === 'harian' || P.PAGE === 'ringkasan') P.rerender(); }, function(){}); },
+    _report: function(){ return buildReport(); }
+  };
+  initMenu();
+})();
+
+</script>
 <script>
 (function(){
   var root = document.documentElement;
