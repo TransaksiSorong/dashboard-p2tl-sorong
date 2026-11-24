@@ -2207,7 +2207,7 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
     var el = $('finBox'); if (!el) return;
     var h = '<div class="fgrid">' +
       '<div><span>Tagihan susulan</span><b>' + rpS(u.ts) + '</b><em>Rp' + n0(u.ts) + '</em></div>' +
-      '<div><span>PPJ P2TL</span><b>' + rpS(u.ppj) + '</b><em>Total dengan PPJ ' + rpS(u.rt) + '</em></div>' +
+      '<div><span>PPJ P2TL</span><b>' + rpS(u.ppj) + '</b><em>Rp' + n0(u.ppj) + '</em></div>' +
       '<div><span>Rupiah per kWh</span><b>Rp' + n0(u.rpkwh) + '</b><em>Tagihan susulan ÷ kWh</em></div>' +
       '<div><span>Temuan</span><b>' + n0(u.temuan) + '</b><em>' + n0(u.pelCount) + ' pelanggaran · ' + n0(u.kelCount) + ' kelainan</em></div></div>';
     if (DAILY){
@@ -2248,7 +2248,7 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
     var P = A(), u = P.unitBy(P.CURRENT), host = $('page-harian');
     if (!DAILY){
       host.innerHTML = '<div class="page-head"><h2>Harian &amp; temuan</h2><p>' + esc(u.name) + '</p></div><div class="status' + (DAILY_ERR ? ' err' : '') + '">' +
-        (DAILY_ERR ? '<b>Data harian belum bisa dimuat.</b> ' + esc(DAILY_ERR.message || DAILY_ERR) : 'Memuat data harian dari spreadsheet…') + '</div>';
+        (DAILY_ERR ? '<b>Data harian belum bisa dimuat.</b> ' + esc(DAILY_ERR.message || DAILY_ERR) : 'Memuat data harian dari spreadsheet… (pemuatan pertama bisa sampai ±30 detik)') + '</div>';
       loadDaily().then(function(){ if (P.PAGE === 'harian') renderHarian(); }, function(){ if (P.PAGE === 'harian') renderHarian(); });
       return;
     }
