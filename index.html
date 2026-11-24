@@ -2010,7 +2010,8 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
     var yest = iso(addDays(new Date(), -1));
     var ref = yest < maxD || !maxD ? yest : maxD;      // H-1, atau tanggal data terakhir kalau lebih awal
     if (maxD && maxD < yest) ref = yest;               // tetap H-1 (hari tanpa data = 0)
-    return { kasus: kasus, meter: d.meter || {}, target: d.target || { kwh: 0, meter: 0 }, asOf: d.asOf, ref: parseIso(ref) };
+    var tbd = (d.target && d.target.byDate) || null;
+    return { kasus: kasus, meter: d.meter || {}, target: d.target || { kwh: 0, meter: 0 }, tbd: tbd, tkeys: tbd ? Object.keys(tbd).sort() : [], asOf: d.asOf, ref: parseIso(ref) };
   }
   function unitFilter(code){ var u = A().unitBy(code); return u.isUP3 ? function(){ return true; } : function(c){ return c === code; }; }
   // deret harian {iso: nilai} untuk unit
@@ -2024,8 +2025,23 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
     return out;
   }
   // target harian per unit: target UP3 (sheet REALISASI HARIAN) dibagi menurut porsi target bulanan unit
-  function dailyTarget(code, kind, month){
-    var D = A().DATA, base = kind === 'meter' ? DAILY.target.meter : DAILY.target.kwh;
+  // target harian dari tabel mingguan sheet REALISASI HARIAN (per tanggal, per ULP).
+  // Tanggal tanpa blok mingguan memakai target dari tanggal terdekat yang ada.
+  var IDX = { '42310': 0, '42330': 1, '42340': 2, '42370': 3 };
+  function dailyTarget(code, kind, d){
+    var off = kind === 'meter' ? 5 : 0, idx = IDX[code] == null ? 4 : IDX[code];
+    var tb = DAILY.tbd, keys = DAILY.tkeys;
+    if (tb && keys.length){
+      var k = iso(d), row = tb[k];
+      if (!row){
+        if (k <= keys[0]) row = tb[keys[0]];
+        else if (k >= keys[keys.length - 1]) row = tb[keys[keys.length - 1]];
+        else { for (var i = keys.length - 1; i >= 0; i--) if (keys[i] <= k){ row = tb[keys[i]]; break; } }
+      }
+      if (row && row[off + idx] != null) return +row[off + idx] || 0;
+    }
+    // cadangan: target UP3 dibagi menurut porsi target bulanan unit
+    var D = A().DATA, base = kind === 'meter' ? DAILY.target.meter : DAILY.target.kwh, month = d.getMonth();
     var u = A().unitBy(code);
     if (u.isUP3 || !base) return base;
     var U = A().up3();
@@ -2034,8 +2050,8 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
       var a = tm && tm.target ? tm.target[month] : 0, b = TU && TU.target ? TU.target[month] : 0;
       return b ? base * a / b : base / 4;
     }
-    var ta = u.months[month].target, tb = U.months[month].target;
-    return tb ? base * ta / tb : base / 4;
+    var ta = u.months[month].target, tb2 = U.months[month].target;
+    return tb2 ? base * ta / tb2 : base / 4;
   }
 
   /* ================= kerangka halaman ================= */
@@ -2254,15 +2270,16 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
     }
     var ref = DAILY.ref, refIso = iso(ref), m = ref.getMonth();
     var kS_ = dailySeries(u.code, 'kwh'), mS = dailySeries(u.code, 'meter');
-    var tK = dailyTarget(u.code, 'kwh', m), tM = dailyTarget(u.code, 'meter', m);
-    var st = function(S, T){
+    var tK = dailyTarget(u.code, 'kwh', ref), tM = dailyTarget(u.code, 'meter', ref);
+    var st = function(S, kind){
+      var T = function(d){ return dailyTarget(u.code, kind, d); };
       var y = S[refIso] || 0, s7 = 0, hit = 0, n = 0, streak = 0, best = null, bestV = 0, mon = 0;
       for (var i = 0; i < 7; i++) s7 += S[iso(addDays(ref, -i))] || 0;
-      for (var d = new Date(ref.getFullYear(), m, 1); d <= ref; d = addDays(d, 1)){ var v = S[iso(d)] || 0; n++; mon += v; if (T && v >= T) hit++; if (v > bestV){ bestV = v; best = new Date(d); } }
-      for (var k = 0; k < 400; k++){ var v2 = S[iso(addDays(ref, -k))] || 0; if (T && v2 >= T) streak++; else break; }
-      return { y: y, a: T ? y / T * 100 : NaN, avg7: s7 / 7, hit: hit, n: n, streak: streak, best: best, bestV: bestV, mon: mon };
+      for (var d = new Date(ref.getFullYear(), m, 1); d <= ref; d = addDays(d, 1)){ var v = S[iso(d)] || 0, Td = T(d); n++; mon += v; if (Td && v >= Td) hit++; if (v > bestV){ bestV = v; best = new Date(d); } }
+      for (var k = 0; k < 400; k++){ var dk = addDays(ref, -k), v2 = S[iso(dk)] || 0, Tk = T(dk); if (Tk && v2 >= Tk) streak++; else break; }
+      var Tr = T(ref); return { y: y, a: Tr ? y / Tr * 100 : NaN, avg7: s7 / 7, hit: hit, n: n, streak: streak, best: best, bestV: bestV, mon: mon };
     };
-    var a = st(kS_, tK), b = st(mS, tM);
+    var a = st(kS_, 'kwh'), b = st(mS, 'meter');
     var mFull = P.MONTHS_FULL[m];
     var h = '<div class="page-head"><h2>Harian &amp; temuan</h2><p>' + esc(u.name) + ' · per tanggal register · H−1 = ' + esc(tglPanjang(ref)) + '</p></div>';
     var kp = function(lbl, val, sub, extra, hero){ return '<div class="kpi' + (hero ? ' hero' : '') + '"><div class="lbl">' + lbl + '</div><div class="val">' + val + '</div>' + (extra || '') + (sub ? '<div class="sub">' + sub + '</div>' : '') + '</div>'; };
@@ -2275,7 +2292,7 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
       kp('Hari terbaik · ' + esc(mFull), a.best ? num(a.bestV) + ' <small class="u">kWh</small>' : '—', a.best ? tglPanjang(a.best) + (a.streak > 1 ? ' · ' + a.streak + ' hari beruntun tercapai' : '') : '') +
       '</div>';
     var kind = load('v3-cal') || 'kwh';
-    h += card('Kalender capaian harian 2026', 'Tiap kotak satu hari. Warna mengikuti capaian terhadap target harian (sama seperti rekap di sheet REALISASI HARIAN).',
+    h += card('Kalender capaian harian 2026', 'Tiap kotak satu hari. Warna mengikuti capaian terhadap target harian di tabel mingguan sheet REALISASI HARIAN.',
       seg('segCal', [['kwh', 'kWh P2TL'], ['meter', 'Ganti meter']], kind) + '<div class="calwrap"><div class="cal" id="calBox"></div></div>' + legendStatus() + '<div class="calsum" id="calSum"></div>', 'mb');
     h += card('30 hari terakhir', 'Batang = realisasi harian, garis = rata-rata 7 hari, garis kuning putus-putus = target harian.',
       seg('segD30', [['kwh', 'kWh P2TL'], ['meter', 'Ganti meter']], load('v3-d30') || 'kwh') + '<div class="chart tall"><canvas id="cD30" aria-label="Grafik realisasi harian 30 hari terakhir"></canvas></div>', 'mb');
@@ -2303,7 +2320,7 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
         var di = addDays(d, i);
         if (di < start || di > ref){ col += '<i class="cd na"></i>'; continue; }
         if (di.getDate() === 1) monthMarks.push([w, P.MONTHS_SHORT[di.getMonth()]]);
-        var T = dailyTarget(u.code, kind, di.getMonth()), v = S[iso(di)] || 0, a = T ? v / T * 100 : NaN, c = cls(a);
+        var T = dailyTarget(u.code, kind, di), v = S[iso(di)] || 0, a = T ? v / T * 100 : NaN, c = cls(a);
         stats[c] = (stats[c] || 0) + 1;
         col += '<i class="cd ' + c + (iso(di) === iso(ref) ? ' now' : '') + '" title="' + esc(HARI_FULL[di.getDay()] + ', ' + tglPanjang(di) + ': ' + n0(v) + ' ' + unitTxt + ' (' + (T ? pct1(a) : '—') + ' dari target ' + n0(T) + ')') + '"></i>';
       }
@@ -2320,7 +2337,7 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
   function d30(u, kind){
     var P = A(), S = dailySeries(u.code, kind), ref = DAILY.ref, lab = [], val = [], tgt = [], ma = [], col = [];
     for (var i = 29; i >= 0; i--){
-      var d = addDays(ref, -i), v = S[iso(d)] || 0, T = dailyTarget(u.code, kind, d.getMonth());
+      var d = addDays(ref, -i), v = S[iso(d)] || 0, T = dailyTarget(u.code, kind, d);
       lab.push(d.getDate() + ' ' + P.MONTHS_SHORT[d.getMonth()]); val.push(v); tgt.push(T);
       var s = 0; for (var k = 0; k < 7; k++) s += S[iso(addDays(d, -k))] || 0; ma.push(s / 7);
       col.push(v >= T ? css('--real') : css('--muted-bar'));
@@ -2515,14 +2532,14 @@ details[open] summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
     // 7. harian
     if (DAILY){
       var ref = DAILY.ref, S = dailySeries(u.code, 'kwh'), lab = [], val = [], tgt = [];
-      for (var q = 29; q >= 0; q--){ var dq = addDays(ref, -q); lab.push(dq.getDate() + '/' + (dq.getMonth() + 1)); val.push(S[iso(dq)] || 0); tgt.push(Math.round(dailyTarget(u.code, 'kwh', dq.getMonth()))); }
+      for (var q = 29; q >= 0; q--){ var dq = addDays(ref, -q); lab.push(dq.getDate() + '/' + (dq.getMonth() + 1)); val.push(S[iso(dq)] || 0); tgt.push(Math.round(dailyTarget(u.code, 'kwh', dq))); }
       var mm = ref.getMonth(), drows = [['Unit', 'Total bulan ini', 'Rata-rata/hari', 'Hari tercapai', 'H-1']];
       [U].concat(P.ulps()).forEach(function(x){
-        var Sx = dailySeries(x.code, 'kwh'), T = dailyTarget(x.code, 'kwh', mm), tot = 0, n = 0, hit = 0;
-        for (var dd = new Date(ref.getFullYear(), mm, 1); dd <= ref; dd = addDays(dd, 1)){ var v = Sx[iso(dd)] || 0; tot += v; n++; if (v >= T) hit++; }
+        var Sx = dailySeries(x.code, 'kwh'), tot = 0, n = 0, hit = 0;
+        for (var dd = new Date(ref.getFullYear(), mm, 1); dd <= ref; dd = addDays(dd, 1)){ var v = Sx[iso(dd)] || 0; tot += v; n++; if (v >= dailyTarget(x.code, 'kwh', dd)) hit++; }
         drows.push([x.name, n0(tot), n0(tot / Math.max(1, n)), hit + ' / ' + n, n0(Sx[iso(ref)] || 0)]);
       });
-      slides.push({ title: 'REALISASI HARIAN P2TL', sub: u.name + ' · 30 hari terakhir s.d. ' + tglPanjang(ref) + ' · target harian ' + n0(dailyTarget(u.code, 'kwh', mm)) + ' kWh', foot: foot, els: [
+      slides.push({ title: 'REALISASI HARIAN P2TL', sub: u.name + ' · 30 hari terakhir s.d. ' + tglPanjang(ref) + ' · target harian ' + n0(dailyTarget(u.code, 'kwh', ref)) + ' kWh', foot: foot, els: [
         { t: 'chart', kind: 'barline', x: 0.95, y: 1.3, w: 11.45, h: 3.25, title: 'kWh per hari', labels: lab, series: [{ name: 'Realisasi', values: val, color: C.real }, { name: 'Target harian', values: tgt, color: C.gold, asLine: true }] },
         { t: 'table', x: 0.95, y: 4.75, w: 11.45, rows: drows, colW: [2.65, 2.3, 2.3, 2.1, 2.1], size: 10.5, rowH: 0.34, firstBold: true }
       ] });
